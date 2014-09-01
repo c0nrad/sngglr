@@ -1,0 +1,26 @@
+{
+  "name": "sngglr",
+  "version": "0.0.0",
+  "description": "Dating website for MTU/Finlandia students",
+  "main": "app.js",
+  "authors": [
+    "c0nrad"
+  ],
+  "license": "MIT",
+  "homepage": "https://sngglr.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.23",
+    "angular-ui-router": "~0.2.10",
+    "angular-resource": "~1.2.23",
+    "underscore": "~1.7.0"
+  }
+}

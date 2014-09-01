@@ -1,0 +1,21 @@
+<h1> Matches </h1>
+
+<hr/>
+<table>
+  <tr>
+    <th> Link </th>
+    <th> Match Date </th>
+    <th> Name </th>
+    <th> Date Last Activity </th>
+    <th> Chats </th>
+    <th> Picture </th>
+  </tr>
+  <tr ng-repeat="match in matches">
+    <td> <a href="/#/matches/{{match._id}}"> Link </a>
+    <td> {{match.ts | date:'medium'}} </td>
+    <td> {{match.other.name}} </td>
+    <td> {{match.other.lastActivity | date:'medium'}} </td>
+    <td> {{match.chats.length || 0 }} </td>
+    <td> <img ng-src="{{match.pictures[0].url}}" style="width: 50px; height: 50px"> </td>
+  </tr>
+</table>

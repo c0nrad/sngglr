@@ -1,0 +1,50 @@
+<h2> Profile </h2>
+
+<h3> {{me.name}} </h3>
+
+<label>
+  <input type="checkbox" ng-model="edit"> Edit Mode
+</label>
+
+<div ng-show="!edit">
+  <p> {{me.bio}} </p>
+
+  <p> Activity {{me.activity}} </p>
+  <p> Gender: {{me.gender}} </p>
+  <p> Interested In: {{me.looking}} </p>
+
+  <div ng-repeat="picture in pictures">
+    <img ng-src="{{picture.url}}">
+  </div>
+</div>
+
+<div ng-show="edit">
+  <textarea ng-model="me.bio"> </textarea>
+
+  <label> Activity:
+    <select ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
+  </label>
+
+  <label> Gender:
+    <select ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
+  </label>
+
+  <label> Interested In:
+    <select ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
+  </label>
+
+  <br />
+
+  <div ng-repeat="picture in pictures">
+    <img ng-src="{{picture.url}}">
+    <button ng-click="deletePicture(picture)"> Delete </button>
+    <button ng-click="makeFirst(picture)"> Make First </button>
+  </div>
+
+  <input type="text" ng-model="picture" placeholder="url">
+  <button ng-click="addPicture()"> Add Picture </button>
+
+  <br />
+
+  <button ng-click="me.$update()"> Save </button>
+</div>
