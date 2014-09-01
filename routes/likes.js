@@ -10,6 +10,8 @@ var User = mongoose.model('User');
 
 var async = require('async');
 
+var notifications = require('./notifications');
+
 router.post('/like', function(req, res, next) {
 
   if (!req.user) {
@@ -63,6 +65,35 @@ router.post('/like', function(req, res, next) {
       l.save(next);
     }],
 
+    likeNotification: ['like', 'other', function(next, results) {
+      var other = results.other;
+      if (likeType === 'no' || likeType === 'maybe') {
+        next(null, 'not a yes like');
+      }
+
+      async.auto({
+        sms: function(next) {
+          if (other.notifications.onLike.sms) {
+            return notifications.sms(other.phone, notifications.onLike.sms, next);
+          }
+          next();
+        },
+
+        email: function(next) {
+          if (other.notification.onLike.email) {
+            return notifications.email(other.email, 'Sngglr: New Like!', notifications.onLike.email, next);
+          }
+          next();
+        }
+      }, function(err, results) {
+        if (err) {
+          console.log(err, results);
+        }
+
+        next(null, JSON.stringify(err) + results);
+      });
+    }],
+
     match: ['otherLike', 'me', 'other', function(next, results) {
       var me = results.me;
       var other = results.other;
@@ -78,6 +109,35 @@ router.post('/like', function(req, res, next) {
       });
       m.save(next);
     }],
+
+    matchNotifications: ['match', 'other', function(err, results) {
+      var other = results.other;
+      if (results.match === null) {
+        return next(null);
+      }
+
+      async.auto({
+        sms: function(next) {
+          if (other.notifications.onMatch.sms) {
+            return notifications.sms(other.phone, notifications.onMatch.sms(other.name), next);
+          }
+          next();
+        },
+
+        email: function(next) {
+          if (other.notification.onMatch.email) {
+            return notifications.email(other.email, 'Sngglr: New Match!', notifications.onMatch.email(other.name), next);
+          }
+          next();
+        }
+      }, function(err, results) {
+        if (err) {
+          console.log(err, results);
+        }
+
+        next(null, JSON.stringify(err) + results);
+      });
+    }]
   }, function(err, results) {
     if (err) {
       return next(err);

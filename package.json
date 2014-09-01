@@ -6,26 +6,26 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "express": "~4.2.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
+    "async": "*",
+    "baucis": "*",
     "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
-    "winston": "*",
-    "baucis": "*",
-    "underscore": "*",
+    "express": "~4.2.0",
+    "express-session": "*",
+    "moment": "*",
+    "mongo-connect": "*",
+    "mongodb": "*",
+    "morgan": "~1.0.0",
+    "node-uuid": "*",
+    "nodemailer": "^1.2.1",
     "passport": "*",
     "passport-local": "*",
-    "async": "*",
-    "mongo-connect": "*",
-    "express-session": "*",
-
-    "mongodb": "*",
     "request": "*",
-
-    "node-uuid": "*",
-    "moment": "*"
+    "static-favicon": "~1.0.0",
+    "twilio": "^1.7.0",
+    "underscore": "*",
+    "winston": "*"
   }
 }

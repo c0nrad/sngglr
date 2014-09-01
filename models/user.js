@@ -22,6 +22,8 @@ var UserSchema = new Schema({
   bio: { type: String, trim: true, default: 'I\'m awesome!' },
   activity: {type: String, default: 'snuggle', enum: activities},
 
+  confirmed: {type: Boolean, default: false},
+
   lastLogin: {type: Date, default: Date.now},
   lastActivity: {type: Date, default: Date.now },
   firstLogin: {type: Date, default: Date.now },
@@ -29,11 +31,27 @@ var UserSchema = new Schema({
   hashedPassword: {type: String, selected: false},
   provider: String,
   salt: String,
+
+  phone: { type: String, defualt: '' },
+  notifications: {
+    onLike: {
+      email: { type: Boolean, default: false },
+      sms: { type: Boolean, default: true }
+    },
+    onMatch: {
+      email: { type: Boolean, default: false },
+      sms: {type: Boolean, default: true }
+    },
+    onChat: {
+      email: { type: Boolean, default: false },
+      sms: {type: Boolean, default: true }
+    }
+  }
 });
 
 UserSchema.set('toJSON', {
   transform: function(doc, ret) {
-    return _.pick(ret, '_id', 'name', 'email', 'role', 'gender', 'looking', 'bio', 'activity', 'lastLogin', 'lastActivity', 'firstLogin', 'dateAdded', 'url');
+    return _.pick(ret, '_id', 'name', 'email', 'role', 'gender', 'looking', 'bio', 'activity', 'lastLogin', 'lastActivity', 'firstLogin', 'dateAdded', 'phone', 'notifications');
   }
 });
 

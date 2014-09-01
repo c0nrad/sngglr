@@ -58,6 +58,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/reset/:reset',
       templateUrl: 'partials/reset.html',
       controller: 'ResetController'
+    })
+
+    .state('confirmation', {
+      url: '/confirmation/:token',
+      controller: 'ConfirmationController'
     });
  });
 
@@ -79,6 +84,20 @@ app.service('Match', function($resource) {
 
 app.service('Chat', function($resource) {
   return $resource('/api/users/:user/matches/:match/chats/:id', {id: '@_id', user: '@user', match: '@match'});
+});
+
+app.controller('ConfirmationController', function($scope, $http, $stateParams) {
+  console.log($stateParams.token);
+
+  var token = $stateParams.token;
+  $http.post('/api/confirmation/' + token)
+  .success(function() {
+    console.log('wahoo! confirmed');
+  })
+  .error(function(err) {
+    $scope.err = err;
+    console.log('fail');
+  });
 });
 
 app.controller('ResetController', function($scope, $http, $stateParams, $state) {

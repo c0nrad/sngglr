@@ -13,6 +13,7 @@ var playRoutes = require('./play');
 var sessionRoutes = require('./session');
 var matchRoutes = require('./matches');
 var resetRoutes = require('./reset');
+var confirmationRoutes = require('./confirmations');
 
 router.use('/api/users?', userRoutes);
 router.use('/api/users?/:person', pictureRoutes);
@@ -21,6 +22,7 @@ router.use('/api', matchRoutes);
 router.use('/api', playRoutes);
 router.use('/api', sessionRoutes);
 router.use('/api', resetRoutes);
+router.use('/api', confirmationRoutes);
 
 // login / logout
 // /api/login

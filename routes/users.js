@@ -2,7 +2,11 @@
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Confirmation = mongoose.model('Confirmation');
 
+var notifications = require('./notifications');
+
+var async = require('async');
 var _ = require('underscore');
 
 var express = require('express');
@@ -13,22 +17,51 @@ var logger = require('../logger');
 router.post('/', function (req, res, next) {
   logger.info('Creating new user:', req.body.name, req.body.email);
 
-
   var u = _.pick(req.body, 'email', 'name', 'password');
 
-  var newUser = new User(u);
-  newUser.provider = 'local';
-  newUser.save(function(err) {
+  async.auto({
+    user: function(next) {
+      var newUser = new User(u);
+      newUser.provider = 'local';
+      newUser.save(next);
+    },
+
+    confirmation: ['user', function(next, results) {
+      var user = results.user[0];
+
+      var c = new Confirmation({ user: user._id });
+      c.save(next);
+    }],
+
+    email: ['confirmation', function(next, results) {
+      var user = results.user[0];
+      var confirmation = results.confirmation[0];
+
+      var to = user.email;
+      var token = confirmation.token;
+
+      var body = 'Howdy! \
+      \
+      Welcome to Sngglr! To get started please click the following link to confirm your email! \
+      http://sngglr.com/#/confirmation/' + token + ' \
+      \
+      Happy Snuggling!\
+      Sngglr Team';
+
+      notifications.email(to, body, next);
+    }]
+
+  }, function(err, results) {
     if (err) {
       return next(err);
     }
 
-    req.logIn(newUser, function(err) {
+    req.login(results.user[0], function(err) {
       if (err) {
         return next(err);
       }
 
-      return res.json(req.user.toJSON());
+      res.send(req.user.toJSON());
     });
   });
 });
@@ -38,7 +71,7 @@ router.put('/', function (req, res, next) {
     next(401);
   }
 
-  var updatedFields = _.pick(req.body, 'gender', 'looking', 'bio', 'activity');
+  var updatedFields = _.pick(req.body, 'gender', 'looking', 'bio', 'activity', 'notifications', 'phone');
   _.extend(req.user, updatedFields);
 
   req.user.save(function(err, user) {

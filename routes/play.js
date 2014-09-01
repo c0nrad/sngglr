@@ -19,6 +19,13 @@ router.get('/play', function(req, res, next) {
   async.auto({
     // Find all peopel you're already rated
 
+    confirmed: function(next) {
+      if (req.user.confirmed === false) {
+        return next('must confirm email before playing');
+      }
+      next();
+    },
+
     pictures: function(next) {
       Picture.find({user: req.user._id}, function(err, results) {
         if (err) {

@@ -46,5 +46,35 @@
 
   <br />
 
+  <hr />
+  <h3> Private Info </h3>
+
+  <input type="tel" ng-model="me.phone" placeholder="phone">
+
+  <h4> Notifications </h4>
+
+  <table>
+    <tr>
+      <th> Type </th>
+      <th> SMS </th>
+      <th> Email </th>
+    </tr>
+    <tr>
+      <th> Someone likes you </th>
+      <td> <input type="checkbox" ng-model="me.notifications.onLike.sms"> </td>
+      <td> <input type="checkbox" ng-model="me.notifications.onLike.email"> </td>
+    </tr>
+    <tr>
+      <th> You get a match </th>
+      <td> <input type="checkbox" ng-model="me.notifications.onMatch.sms"> </td>
+      <td> <input type="checkbox" ng-model="me.notifications.onMatch.email"> </td>
+    </tr>
+    <tr>
+      <th> You recieve a chat </th>
+      <td> <input type="checkbox" ng-model="me.notifications.onChat.sms"> </td>
+      <td> <input type="checkbox" ng-model="me.notifications.onChat.email"> </td>
+    </tr>
+  </table>
+
   <button ng-click="me.$update()"> Save </button>
 </div>
