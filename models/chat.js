@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
 var ChatSchema = new Schema({
   to: {
     user: {type: Schema.Types.ObjectId, ref: 'User'},
-    name: {type: String }
+    name: {type: String },
+    seen: {type: Boolean, default: false}
   },
   from: {
     user: {type: Schema.Types.ObjectId, ref: 'User'},

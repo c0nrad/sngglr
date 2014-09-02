@@ -5,4 +5,5 @@ var Chat = require('./chat');
 var Picture = require('./picture');
 var Reset = require('./reset');
 var Confirmation = require('./confirmation');
+var Invite = require('./invite');
 // var Comment = require('./comment');

@@ -10,8 +10,9 @@ var User = mongoose.model('User');
 var async = require('async');
 var moment = require('moment');
 
+var notifications = require('./notifications');
+
 router.post('/reset', function(req, res, next) {
-  console.log(req.body.email, 'here');
   async.auto({
     user: function(next) {
       User.findOne({email: req.body.email}, next);
@@ -29,6 +30,12 @@ router.post('/reset', function(req, res, next) {
       });
 
       r.save(next);
+    }],
+
+    sendEmail: ['reset', 'user', function(next, results) {
+      var reset = results.reset[0];
+      var user = results.user;
+      notifications.email(user.email, 'Sngglr: Reset Password', notifications.resetEmail(reset.token), next);
     }]
   }, function(err) {
     if (err) {

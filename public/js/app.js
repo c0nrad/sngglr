@@ -79,11 +79,11 @@ app.service('Play', function($resource) {
 });
 
 app.service('Match', function($resource) {
-  return $resource('/api/users/:user/matches/:id', {id: '@_id', user: '@me._id'});
+  return $resource('/api/users/:user/matches/:id', {id: '@_id', user: '@me._id'}, {seen: {method: 'PUT', url: '/api/users/:user/matches/:id/seen'}});
 });
 
 app.service('Chat', function($resource) {
-  return $resource('/api/users/:user/matches/:match/chats/:id', {id: '@_id', user: '@user', match: '@match'});
+  return $resource('/api/users/:user/matches/:match/chats/:id', {id: '@_id', user: '@user', match: '@match'}, {seen: {url: '/api/users/:user/matches/:match/chats/seen', method: 'PUT'}});
 });
 
 app.controller('ConfirmationController', function($scope, $http, $stateParams) {
@@ -133,19 +133,22 @@ app.controller('ForgotController', function(User, $scope, $http) {
   };
 });
 
-app.controller('MatchController', function(User, Match, Picture, Chat, $scope, $state, $stateParams) {
+app.controller('MatchController', function(User, Match, Picture, Chat, $http, $scope, $state, $stateParams) {
   $scope.me = User.me(function(me) {
     $scope.match = Match.get({user: me._id, id: $stateParams.match}, function(match) {
       $scope.other = User.get({id: match.other.user});
       $scope.pictures = Picture.query({user: match.other.user});
-      $scope.chats = Chat.query({match: match._id, user: me._id});
+      $scope.chats = Chat.query({match: match._id, user: me._id}, function() {
+        $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/chats/seen');
+      });
+      $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/seen');
     });
   });
 
   $scope.send = function() {
-    var c = new Chat({message: $scope.message, user: $scope.me._id, match: $scope.match._id});
+    var c = new Chat({message: $scope.message, user: $scope.me._id, match: $stateParams.match});
     c.$save(function() {
-      $scope.chats = Chat.query({match: $scope.match._id, user: $scope.me._id});
+      $scope.chats = Chat.query({match: $stateParams.match, user: $scope.me._id});
     });
   };
 

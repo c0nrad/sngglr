@@ -56,6 +56,16 @@ exports.sms = function(to, body, next) {
   }
 };
 
+exports.resetEmail = function(token) {
+  return '' +
+  'Howdy!\n\n' +
+  'To reset your password, please visit:\n' +
+  'http://sngglr.com/#/reset/' + token + '\n' +
+  '\n' +
+  'Enjoy :),\n' +
+  'Sngglr Team';
+};
+
 exports.onLike = {};
 exports.onLike.sms = 'Someone just liked you on Sngglr';
 exports.onLike.email = 'Howdy\n\n' +
@@ -64,10 +74,26 @@ exports.onLike.email = 'Howdy\n\n' +
 'Sngglr Team';
 
 exports.onMatch = {};
-exports.onLike.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Say Hai!'; };
+exports.onMatch.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Say Hai!'; };
 exports.onMatch.email = function(name) {
   return 'Howdy\n\n' +
 'You just matched with ' + name + '! Say hai!\n' +
 'Enjoy :),\n' +
 'Sngglr Team\nhttp://sngglr.com';
 };
+
+exports.inviteEmail = function(email) {
+  return '' +
+  'Howdy ' + email + '!\n' +
+  '\n\n' +
+  'You have been invited to Sngglr by an unnamed user! Who? Sorry can\'t tell you that, we value user security and safety. But they\'re probably cute.\n'
+  '\n' +
+  'What is Sngglr? It\'s a Michigan Tech and Finlandia only dating website (not hookup website).\n' +
+  '\n' +
+  'Interested? Good :). Check us out:\n' +
+  '\n' +
+  'http://sngglr.com\n' +
+  '\n' +
+  'Made by MTU/FU students for MTU/FU students,\n' +
+  'Sngglr Team';
+}

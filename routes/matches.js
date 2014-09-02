@@ -15,6 +15,7 @@ router.get('/users/:user/matches', function(req, res, next) {
     	if (err) {
 				return next(err);
 			}
+
 			var out = matches.map(function(m) {
 				var match = m.toJSON();
 				for (var i = 0; i < match.users.length; ++i) {
@@ -29,6 +30,16 @@ router.get('/users/:user/matches', function(req, res, next) {
 			});
     	res.json(out);
   	});
+});
+
+router.put('/users/:user/matches/:match/seen', function(req, res, next) {
+	Match.update({_id: req.params.match}, { $set: {'users.0.seen': true, 'users.1.seen': true}}, function(err) {
+		if (err) {
+			return next(err);
+		}
+
+		res.send('okay');
+	});
 });
 
 router.get('/users/:user/matches/:match', function(req, res, next) {
@@ -115,79 +126,6 @@ router.delete('/users/:user/matches/:match', function(req, res, next) {
 		}
 
 		res.send('okay');
-	});
-});
-
-router.get('/users/:user/matches/:match/chats', function(req, res, next) {
-	Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
-		if (err) {
-			return next(err);
-		}
-
-		Chat.find({match: match._id}, function(err, chats) {
-			if (err) {
-				return next(err);
-			}
-
-			res.json(chats);
-		});
-
-	});
-});
-
-
-router.post('/users/:user/matches/:match/chats', function(req, res, next) {
-
-	async.auto({
-		match: function(next) {
-			Match.findById(req.params.match, function(err, match) {
-				if (err) {
-					return next(err);
-				}
-
-				match = match.toJSON();
-				for (var i = 0; i < match.users.length; ++i) {
-					var user = match.users[i];
-					if (user.user.toString() === req.user._id.toString()) {
-						match.me = user;
-					} else {
-						match.other = user;
-					}
-				}
-
-				if (match.me === undefined) {
-					next('User not apart of match');
-				}
-
-				next(null, match);
-			});
-		},
-
-		chat: ['match', function(next, results) {
-			var match = results.match;
-			var c = new Chat({
-				from: {
-					user: req.user._id,
-					name: req.user.name
-				},
-
-				to: {
-					user: match.other.user,
-					name: match.other.name
-				},
-				message: req.body.message,
-				match: match._id
-			});
-
-			c.save(next);
-		}]
-
-	}, function(err, results) {
-		if (err) {
-			return next(err);
-		}
-
-		res.json(results.chat[0]);
 	});
 });
 

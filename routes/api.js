@@ -12,12 +12,14 @@ var pictureRoutes = require('./pictures');
 var playRoutes = require('./play');
 var sessionRoutes = require('./session');
 var matchRoutes = require('./matches');
+var chatRoutes = require('./chats');
 var resetRoutes = require('./reset');
 var confirmationRoutes = require('./confirmations');
 
 router.use('/api/users?', userRoutes);
 router.use('/api/users?/:person', pictureRoutes);
 router.use('/api/users?/:person', likeRoutes);
+router.use('/api', chatRoutes);
 router.use('/api', matchRoutes);
 router.use('/api', playRoutes);
 router.use('/api', sessionRoutes);

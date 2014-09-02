@@ -22,7 +22,7 @@ var UserSchema = new Schema({
   bio: { type: String, trim: true, default: 'I\'m awesome!' },
   activity: {type: String, default: 'snuggle', enum: activities},
 
-  confirmed: {type: Boolean, default: false},
+  confirmed: {type: Boolean, default: true},
 
   lastLogin: {type: Date, default: Date.now},
   lastActivity: {type: Date, default: Date.now },

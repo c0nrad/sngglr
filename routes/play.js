@@ -52,6 +52,7 @@ router.get('/play', function(req, res, next) {
       var query = {
         _id: { $nin: previousLikes },
         looking: { $in: [me.gender, 'both'] },
+        //confirmed: true
       };
 
       if (me.looking !== 'both') {
