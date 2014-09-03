@@ -48,6 +48,10 @@ router.get('/users/:user/matches/:match', function(req, res, next) {
 			return next(err);
 		}
 
+		if (match === null) {
+			return next('no a valid match');
+		}
+
 		match = match.toJSON();
 		for (var i = 0; i < match.users.length; ++i) {
 			var user = match.users[i];
@@ -96,7 +100,7 @@ router.delete('/users/:user/matches/:match', function(req, res, next) {
 
 		like: ['match', function(next, results) {
 			var match = results.match;
-			Like.find({ 'liker.user': match.me.user, 'likee.user': match.other.user}, next);
+			Like.findOne({ 'liker.user': match.me.user, 'likee.user': match.other.user}, next);
 		}],
 
 		chats: ['match', function(next, results) {
@@ -106,13 +110,15 @@ router.delete('/users/:user/matches/:match', function(req, res, next) {
 
 		removeChats: ['chats', function(next, results) {
 			var chats = results.chats;
+			if (chats.length === 0) {
+				return next();
+			}
 			chats.remove(next);
 		}],
 
 		changeLike: ['like', function(next, results) {
 			var like = results.like;
 			like.likeType = 'no';
-			console.log('saving like', like);
 			like.save(next);
 		}],
 
@@ -122,6 +128,7 @@ router.delete('/users/:user/matches/:match', function(req, res, next) {
 		}]
 	}, function(err) {
 		if (err) {
+			console.log('err', err);
 			return next(err);
 		}
 

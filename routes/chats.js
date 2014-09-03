@@ -15,6 +15,10 @@ router.get('/users/:user/matches/:match/chats', function(req, res, next) {
       return next(err);
     }
 
+    if (match === null) {
+      return next('not a valid match');
+    }
+    
     Chat.find({match: match._id}, function(err, chats) {
       if (err) {
         return next(err);

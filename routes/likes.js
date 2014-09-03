@@ -27,10 +27,10 @@ router.post('/like', function(req, res, next) {
     },
 
     checkPrevious: ['previousLike', function(next, results) {
-      if (results.previousLike !== null) {
-        return next('This like already exist!');
+      if (results.previousLike === null || results.previousLike === undefined) {
+        return next(null);
       }
-      next(null);
+      return next('This like already exist!');
     }],
 
     otherLike: ['checkPrevious', function(next) {
@@ -68,7 +68,7 @@ router.post('/like', function(req, res, next) {
     likeNotification: ['like', 'other', function(next, results) {
       var other = results.other;
       if (likeType === 'no' || likeType === 'maybe') {
-        next(null, 'not a yes like');
+        return next(null, 'not a yes like');
       }
 
       async.auto({
@@ -80,7 +80,7 @@ router.post('/like', function(req, res, next) {
         },
 
         email: function(next) {
-          if (other.notification.onLike.email) {
+          if (other.notifications.onLike.email) {
             return notifications.email(other.email, 'Sngglr: New Like!', notifications.onLike.email, next);
           }
           next();
@@ -110,9 +110,9 @@ router.post('/like', function(req, res, next) {
       m.save(next);
     }],
 
-    matchNotifications: ['match', 'other', function(err, results) {
+    matchNotifications: ['match', 'other', function(next, results) {
       var other = results.other;
-      if (results.match === null) {
+      if (!results.match) {
         return next(null);
       }
 
@@ -125,7 +125,7 @@ router.post('/like', function(req, res, next) {
         },
 
         email: function(next) {
-          if (other.notification.onMatch.email) {
+          if (other.notifications.onMatch.email) {
             return notifications.email(other.email, 'Sngglr: New Match!', notifications.onMatch.email(other.name), next);
           }
           next();
@@ -140,6 +140,7 @@ router.post('/like', function(req, res, next) {
     }]
   }, function(err, results) {
     if (err) {
+      console.log('err', err);
       return next(err);
     }
 

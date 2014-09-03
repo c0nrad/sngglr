@@ -41,7 +41,7 @@ exports.email = function(to, subject, body, next) {
 exports.sms = function(to, body, next) {
   console.log('sms', to, body);
 
-  if (to === null || to.length < 7) {
+  if (to === undefined || to === null || typeof to !== 'string' | to.length < 7) {
     return next(null, 'Invalid phone number');
   }
 

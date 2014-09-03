@@ -17,7 +17,6 @@ router.get('/play', function(req, res, next) {
   }
 
   async.auto({
-    // Find all peopel you're already rated
 
     confirmed: function(next) {
       if (req.user.confirmed === false) {

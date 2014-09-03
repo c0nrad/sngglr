@@ -67,7 +67,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
  });
 
 app.service('User', function($resource) {
-  return $resource('/api/users/:id', {id: '@id'}, {login: {url: '/api/login'}, me: {url: '/api/users/me', method: 'GET'}, like: {method: 'POST', url:'/api/users/:id/like'}, addPicture: {method: 'POST', url: '/api/users/:id/pictures'}, update: {method: 'PUT'}, logout: {method: 'DELETE', url: '/api/logout'}});
+  return $resource('/api/users/:id', {id: '@_id'}, {login: {url: '/api/login'}, me: {url: '/api/users/me', method: 'GET'}, like: {method: 'POST', url:'/api/users/:id/like'}, addPicture: {method: 'POST', url: '/api/users/:id/pictures'}, update: {method: 'PUT'}, logout: {method: 'DELETE', url: '/api/logout'}});
 });
 
 app.service('Picture', function($resource){

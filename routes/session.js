@@ -1,7 +1,6 @@
 'use strict';
 
 var passport = require('passport');
-var logger = require('../logger');
 var express = require('express');
 var router = express.Router();
 
@@ -12,7 +11,6 @@ router.delete('/logout', function (req, res) {
 
 router.post('/login', function (req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    logger.info(err, user, info);
     var error = err || info;
     if (error) {
       return res.json(401, error);

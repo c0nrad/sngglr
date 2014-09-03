@@ -3,6 +3,10 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Confirmation = mongoose.model('Confirmation');
+var Picture = mongoose.model('Picture');
+var Chat = mongoose.model('Chat');
+var Like = mongoose.model('Like');
+var Match = mongoose.model('Match');
 
 var notifications = require('./notifications');
 
@@ -48,7 +52,7 @@ router.post('/', function (req, res, next) {
       Happy Snuggling!\
       Sngglr Team';
 
-      notifications.email(to, body, next);
+      notifications.email(to, 'Sngglr: Confirm Email', body, next);
     }]
 
   }, function(err, results) {
@@ -66,7 +70,7 @@ router.post('/', function (req, res, next) {
   });
 });
 
-router.put('/', function (req, res, next) {
+router.put('/:id', function (req, res, next) {
   if (!req.user) {
     next(401);
   }
@@ -104,6 +108,46 @@ router.get('/:id', function (req, res, next) {
     }
 
     res.send(user.toJSON());
+  });
+});
+
+router.delete('/:id', function(req, res, next) {
+  if (!req.user) {
+    return next('you must be logged in');
+  }
+
+  async.auto({
+    pictures: function(next) {
+      Picture.find({user: req.user._id}).remove(next);
+    },
+
+    confirmation: function(next) {
+      Confirmation.find({user: req.user._id}).remove(next);
+    },
+
+    chat: function(next) {
+      Chat.find({ $or: [{'to.user': req.user._id}, {'from.user': req.user._id}]}).remove(next);
+    },
+
+    match: function(next) {
+      Match.find({ $or: [{'users.1.user': req.user._id}, {'users.0.user': req.user._id}]}).remove(next);
+    },
+
+    like: function(next) {
+      Like.find({ $or: [{'likeer.user': req.user._id}, {'likee.user': req.user._id}]}).remove(next);
+    },
+
+    user: function(next) {
+      User.findById(req.user._id).remove(next);
+    }
+  }, function(err) {
+    if (err) {
+      console.log('ERROR DELETING USER', req.user, err);
+      return next(err);
+    }
+
+    req.logout();
+    res.send('okay');
   });
 });
 
