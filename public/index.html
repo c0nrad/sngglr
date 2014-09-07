@@ -7,23 +7,51 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <title>Sngglr</title>
+
   </head>
 
   <body ng-app="sngglr">
 
-    <div ng-controller="HeaderController">
-      <a ng-hide="me.name" ui-sref="login">Login</a>
-      <a ng-hide="me.name" ui-sref="new">New Account</a>
-      <a ng-show="me.name" ui-sref="profile"> Profile </a>
-      <a ng-show="me.name" ui-sref="play"> Play </a>
-      <a ng-show="me.name" ui-sref="matches"> Matches </a>
-      <a ng-show="me.name" ng-click="logout()" href="#">Logout</a>
-      {{me.name}}
+    <div class="content">
+      <div ng-controller="HeaderController">
+        <a ui-sref="home">SNGGLR</a>
 
+        <span ng-hide="me.name" class="pull-right">
+          <a ui-sref="home"> Home </a>
+          <a ui-sref="about"> About </a>
+          <a ui-sref="login">Login</a>
+          <a ui-sref="new.account">New Account</a>
+        </span>
+
+        <span ng-show="me.name">
+          <a ui-sref="profile">Profile</a>
+          <a ui-sref="play">Play</a>
+          <a ui-sref="matches">Matches</a>
+          <a ng-click="logout()" href="#">Logout</a>
+        </span>
+
+      </div>
+
+      <div ui-view></div>
     </div>
 
-    <div ui-view></div>
+    <!-- <div class="footer" >
+      <hr />
+      <p>
+        <a href="mailto:admin@sngglr.com"> Contact </a>
+        <a href="#" ui-sref="report"> Feedback / Comments </a>
+        <a href="https://github.com/c0nrad/sngglr"> Code </a>
+        <a href="https://facebook.com/theSnugglr"> Facebook </a>
+      </p>
+      <p> Built by MTU/FU students, for MTU/FU students. </p>
+      <p> Sngglr &copy; 2014 </p>
+    </div> -->
+
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <script src="/bower_components/angular/angular.js"> </script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"> </script>

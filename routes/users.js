@@ -18,8 +18,7 @@ var router = express.Router();
 
 var logger = require('../logger');
 
-router.post('/', function (req, res, next) {
-  logger.info('Creating new user:', req.body.name, req.body.email);
+router.post('/', function (req, res, next) { logger.info('Creating new user:', req.body.name, req.body.email);
 
   var u = _.pick(req.body, 'email', 'name', 'password');
 

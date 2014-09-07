@@ -21,7 +21,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('new', {
       url: '/new',
       templateUrl: 'partials/new.html',
-      controller: 'NewController'
+      abstract: true
+    })
+
+    .state('new.account', {
+      url: '/account',
+      controller: 'NewAccountController',
+      templateUrl: 'partials/new.account.html',
+    })
+
+    .state('new.verify', {
+      url: '/verify',
+      templateUrl: 'partials/new.verify.html',
+      controller: 'NewVerifyController'
+    })
+
+    .state('new.profile', {
+      url: '/profile',
+      templateUrl: 'partials/new.profile.html',
+      controller: 'ProfileController'
     })
 
     .state('profile', {
@@ -63,6 +81,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('confirmation', {
       url: '/confirmation/:token',
       controller: 'ConfirmationController'
+    })
+
+    .state('about', {
+      url: '/about',
+      templateUrl: 'partials/about.html'
     });
  });
 
@@ -204,8 +227,8 @@ app.controller('ProfileController', function(User, Picture, $scope) {
   });
 
   $scope.addPicture = function() {
-    console.log($scope.me);
-    User.addPicture({id: $scope.me._id, url: $scope.picture}, function() {
+    console.log('add', $scope.me._id);
+    User.addPicture({_id: $scope.me._id, url: $scope.picture}, function() {
       $scope.pictures = Picture.query({user: $scope.me._id});
     });
   };
@@ -221,14 +244,28 @@ app.controller('ProfileController', function(User, Picture, $scope) {
   };
 });
 
-app.controller('NewController', function(User, $scope, $rootScope, $state) {
+
+app.controller('NewAccountController', function(User, $scope, $rootScope, $state) {
   $scope.create = function() {
     var user = _.pick($scope, 'name', 'email', 'password');
+    console.log(user);
     user = new User(user);
     user.$save(function() {
-      $state.go('profile');
+      $state.go('new.verify');
       $rootScope.me = User.me();
     });
+  };
+
+  $scope.check = function() {
+    $rootScope.me = User.me();
+  };
+});
+
+app.controller('NewVerifyController', function(User, $scope) {
+  $scope.me = User.me();
+
+  $scope.check = function() {
+    $scope.me = User.me();
   };
 });
 

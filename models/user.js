@@ -51,7 +51,7 @@ var UserSchema = new Schema({
 
 UserSchema.set('toJSON', {
   transform: function(doc, ret) {
-    return _.pick(ret, '_id', 'name', 'email', 'role', 'gender', 'looking', 'bio', 'activity', 'lastLogin', 'lastActivity', 'firstLogin', 'dateAdded', 'phone', 'notifications');
+    return _.pick(ret, '_id', 'name', 'email', 'role', 'gender', 'looking', 'bio', 'activity', 'lastLogin', 'lastActivity', 'firstLogin', 'dateAdded', 'phone', 'notifications', 'confirmed');
   }
 });
 
