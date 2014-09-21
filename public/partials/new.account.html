@@ -1,8 +1,34 @@
 <h2> Step One: Create Account </h2>
 
-<input ng-model="name" type="text" placeholder="name">
-<input ng-model="email" type="text" placeholder="email (@mtu or @fu)">
-<input ng-model="password" type="password" placeholder="password">
-<input ng-model="password2" type="password" placeholder="password">
+<div class="alert alert-danger" role="alert" ng-show="err">
+  <strong> Uh oh! </strong> {{err}}
+</div>
 
-<button type="submit" ng-click="create()"> Join! </button>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label> Name </label>
+      <input ng-model="name" class="form-control" type="text" placeholder="Glenn Mroz">
+    </div>
+
+    <div class="form-group">
+      <label> Email </label>
+      <input ng-model="email" class="form-control" type="text" placeholder="email (@mtu.edu or @finlandia.edu)">
+    </div>
+
+    <div class="form-group">
+      <label> Password </label>
+      <input ng-model="password" class="form-control" type="password" placeholder="password">
+    </div>
+
+    <div class="form-group">
+      <label> Confirm Password </label>
+      <input ng-model="password2" class="form-control" type="password" placeholder="password">
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block" ng-click="create()"> Create Account! </button>
+  </div>
+  <div class="col-md-6">
+    <img src="/img/base.png">
+  </div>
+</div>

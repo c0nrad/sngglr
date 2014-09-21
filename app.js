@@ -66,20 +66,15 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+  console.log("I AM IN DEV")
     app.use(function(err, req, res, next) {
+      console.log("ERROR HANDLE!");
         res.status(err.status || 400);
         console.error(err);
         res.send(err);
     });
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    console.error(err);
-    next();
-});
 
 /**
  * Passport configuration

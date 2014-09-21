@@ -26,13 +26,12 @@
           <a ui-sref="new.account">New Account</a>
         </span>
 
-        <span ng-show="me.name">
+        <span ng-show="me.name" class="pull-right">
           <a ui-sref="profile">Profile</a>
           <a ui-sref="play">Play</a>
           <a ui-sref="matches">Matches</a>
           <a ng-click="logout()" href="#">Logout</a>
         </span>
-
       </div>
 
       <div ui-view></div>

@@ -1,33 +1,31 @@
 <h2> Step Three: Create Profile </h2>
 
-<textarea ng-model="me.bio"> </textarea>
+<textarea class="form-control" ng-model="me.bio"> </textarea>
 
 <label> Activity:
-  <select ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
+  <select class="form-control" ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
 </label>
 
 <label> Gender:
-  <select ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
+  <select class="form-control" ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
 </label>
 
 <label> Interested In:
-  <select ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
+  <select class="form-control" ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
 </label>
 
 <br />
 
 <div ng-repeat="picture in pictures">
   <img ng-src="{{picture.url}}">
-  <button ng-click="deletePicture(picture)"> Delete </button>
-  <button ng-click="makeFirst(picture)"> Make First </button>
+  <button class="btn btn-danger" ng-click="deletePicture(picture)"> Delete </button>
+  <button class="btn btn-info" ng-click="makeFirst(picture)"> Make First </button>
 </div>
 
 <input type="text" ng-model="picture" placeholder="url">
-<button ng-click="addPicture()"> Add Picture </button>
+<button class="btn btn-primary" ng-click="addPicture()"> Add Picture </button>
 
-
-<button ng-click="me.$update()"> Save </button>
-
+<button class="btn btn-success" ng-click="me.$update()"> Save </button>
 
 <div ng-show="!pictures">
   You need a picture!
@@ -35,5 +33,5 @@
 
 <div ng-show="pictures.length">
   All done!
-  <a ui-sref="play"> Get Snggling </a>
+  <a class="btn btn-success" ui-sref="play"> Get Snggling </a>
 </div>

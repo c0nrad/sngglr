@@ -110,7 +110,7 @@ router.delete('/users/:user/matches/:match', function(req, res, next) {
 
 		removeChats: ['chats', function(next, results) {
 			var chats = results.chats;
-			if (chats.length === 0) {
+			if (!chats || chats.length === 0) {
 				return next();
 			}
 			chats.remove(next);

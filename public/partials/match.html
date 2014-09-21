@@ -1,12 +1,8 @@
 <h1> Match </h1>
 
-{{match}}
+<!-- {{match}} -->
 
-
-<button ng-click="unmatch()"> Unmatch </button>
-
-<div ng-repeat="chat in chats">
-  <hr />
+<div ng-repeat="chat in chats" class="well">
   <p> From: {{chat.from.name}} </p>
   <p> To: {{chat.to.name}} </p>
   <p> On: {{chat.ts}} </p>
@@ -14,5 +10,8 @@
 </div>
 
 <br />
-<textarea ng-model="message"> </textarea>
-<button ng-click="send()"> Send </button>
+<textarea class="form-control" ng-model="message"> </textarea>
+<button class="btn btn-primary pull-right" ng-click="send()"> Send </button>
+
+
+<button class="btn btn-danger" ng-click="unmatch()"> Unmatch </button>

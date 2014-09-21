@@ -1,5 +1,3 @@
-<h2> Profile </h2>
-
 <h3> {{me.name}} </h3>
 
 <label>
@@ -19,55 +17,50 @@
 </div>
 
 <div ng-show="edit">
-  <textarea ng-model="me.bio"> </textarea>
+  <textarea class="form-control" ng-model="me.bio"> </textarea>
 
   <label> Activity:
-    <select ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
+    <select class="form-control" ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
   </label>
 
   <label> Gender:
-    <select ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
+    <select class="form-control" ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
   </label>
 
   <label> Interested In:
-    <select ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
+    <select class="form-control" ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
   </label>
 
   <br />
 
   <div ng-repeat="picture in pictures">
     <img ng-src="{{picture.url}}">
-    <button ng-click="deletePicture(picture)"> Delete </button>
-    <button ng-click="makeFirst(picture)"> Make First </button>
+    <button class="btn btn-danger" ng-click="deletePicture(picture)"> Delete </button>
+    <button class="btn btn-info" ng-click="makeFirst(picture)"> Make First </button>
   </div>
 
-  <input type="text" ng-model="picture" placeholder="url">
-  <button ng-click="addPicture()"> Add Picture </button>
+  <input type="text" class="form-control" ng-model="picture" placeholder="url">
+  <button class="btn btn-success" ng-click="addPicture()"> Add Picture </button>
 
   <br />
 
   <hr />
   <h3> Private Info </h3>
 
-  <input type="tel" ng-model="me.phone" placeholder="phone">
+  <input type="tel" class="form-control" ng-model="me.phone" placeholder="phone">
 
   <h4> Notifications </h4>
 
-  <table>
+  <table class="table">
     <tr>
       <th> Type </th>
       <th> SMS </th>
       <th> Email </th>
     </tr>
     <tr>
-      <th> Someone likes you </th>
-      <td> <input type="checkbox" ng-model="me.notifications.onLike.sms"> </td>
-      <td> <input type="checkbox" ng-model="me.notifications.onLike.email"> </td>
-    </tr>
-    <tr>
       <th> You get a match </th>
-      <td> <input type="checkbox" ng-model="me.notifications.onMatch.sms"> </td>
-      <td> <input type="checkbox" ng-model="me.notifications.onMatch.email"> </td>
+      <td> <input class="form-control" type="checkbox" ng-model="me.notifications.onMatch.sms"> </td>
+      <td> <input class="form-control" type="checkbox" ng-model="me.notifications.onMatch.email"> </td>
     </tr>
     <tr>
       <th> You recieve a chat </th>
@@ -76,7 +69,5 @@
     </tr>
   </table>
 
-  <button ng-click="me.$update()"> Save </button>
-
-  <button ng-click="me.$delete()"> Delete </button>
+  <button class="btn btn-lg btn-primary" ng-click="me.$update()"> Save </button>
 </div>

@@ -18,16 +18,51 @@ var router = express.Router();
 
 var logger = require('../logger');
 
-router.post('/', function (req, res, next) { logger.info('Creating new user:', req.body.name, req.body.email);
+router.post('/', function (req, res, next) {
+  logger.info('Creating new user:', req.body.name, req.body.email);
 
   var u = _.pick(req.body, 'email', 'name', 'password');
 
+  if (!u.password) {
+    return next('You need a password!');
+  }
+
+  if (!u.name) {
+    return next('You need a name!');
+  }
+
+  if (!u.email) {
+    return next('You need an email!');
+  }
+
+  if (u.email.split('@').length === 1) {
+    return next('not a valid email!');
+  }
+
+  if (! (u.email.split('@')[1] === 'mtu.edu' || u.email.split('@')[1] === 'finlandia.edu')) {
+    return next('email must be either belong to mtu.edu or finlandia.edu');
+  }
+
   async.auto({
-    user: function(next) {
+    checkPrevious: function(next) {
+      User.findOne({email: u.email}).exec(function(err, user) {
+        if (err) {
+          return next(err);
+        }
+
+        if (user) {
+          return next('Email already in use!');
+        }
+
+        next();
+      });
+    },
+
+    user: ['checkPrevious', function(next) {
       var newUser = new User(u);
       newUser.provider = 'local';
       newUser.save(next);
-    },
+    }],
 
     confirmation: ['user', function(next, results) {
       var user = results.user[0];

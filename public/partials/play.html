@@ -1,15 +1,15 @@
 <h1> Play </h1>
 
-<div ng-hide="other.name">
-  <p> Either you've already seen everyone, or your profile isn't complete. </p>
-
-  <p> Invite Someone? </p>
-  <input type="text" ng-model="email">
-  <button ng-click="invite"> Invite! </button>
+<div class="alert alert-danger" role="alert" ng-show="err">
+  <strong> Uh oh! </strong> {{err}}
 </div>
 
-<div ng-show="err">
-  Error: {{err}}
+<div ng-hide="other.name || err">
+  <p> Either you've already seen everyone! </p>
+
+  <p> Invite Someone? </p>
+  <input class="form-control" type="text" ng-model="email">
+  <button class="btn btn-primary" ng-click="invite"> Invite! </button>
 </div>
 
 <div ng-show="other.name">
@@ -21,11 +21,10 @@
   <p> Last seen: {{other.lastActivity}} </p>
 
   <div ng-repeat="picture in other.pictures">
-    {{picture}}
     <img ng-src="{{picture.url}}" style="max-width: 300px max-height: 300px">
   </div>
 
-  <button ng-click="like('yes', other._id)"> Yes </button>
-  <button ng-click="like('maybe', other._id)"> Maybe </button>
-  <button ng-click="like('no', other._id)"> No </button>
+  <button class="btn btn-success" ng-click="like('yes', other._id)"> Yes </button>
+  <button class="btn btn-info" ng-click="like('maybe', other._id)"> Maybe </button>
+  <button class="btn btn-danger" ng-click="like('no', other._id)"> No </button>
 </div>

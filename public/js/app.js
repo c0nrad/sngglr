@@ -203,7 +203,7 @@ app.controller('PlayController', function(User, Play, $scope) {
     $scope.me.$like({id: $scope.me._id, likeType: likeType, other: other}, function() {
       $scope.other = Play.get();
       $scope.err = '';
-    }, function(err) { console.log(err); $scope.err = err.data; });
+    }, function(response) { console.log(response); $scope.err = response.data; });
   };
 });
 
@@ -253,6 +253,8 @@ app.controller('NewAccountController', function(User, $scope, $rootScope, $state
     user.$save(function() {
       $state.go('new.verify');
       $rootScope.me = User.me();
+    }, function(response) {
+      $scope.err = response.data;
     });
   };
 

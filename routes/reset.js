@@ -13,6 +13,10 @@ var moment = require('moment');
 var notifications = require('./notifications');
 
 router.post('/reset', function(req, res, next) {
+
+  if (!req.body.email)
+    return next('Not a valid email');
+
   async.auto({
     user: function(next) {
       User.findOne({email: req.body.email}, next);
