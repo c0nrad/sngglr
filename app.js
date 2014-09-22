@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'i4m41337h4x0r??',
   store: new mongoStore({
-    url: 'mongodb://localhost/sngglr',
+    url: mongoUri,
     collection: 'sessions'
   }, function () {
     console.log('db connection open');
