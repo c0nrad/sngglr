@@ -1,0 +1,9 @@
+{
+  "name": "Sngglr",
+  "description": "Dating website",
+  "repository": "https://github.com/c0nrad/sngglr",
+  "keywords": ["dating"],
+  "addons": [
+    "mongolab:sandbox"
+  ]
+}
