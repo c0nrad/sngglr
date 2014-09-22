@@ -1,7 +1,21 @@
 'use strict';
 
 var twilio = require('twilio');
-var secrets = require('../secrets');
+
+try {
+    var secrets = require('../secrets');
+} catch(e) {
+    secrets = {
+      twilioSid: process.env.twilioSid,
+      twilioAuth: process.env.twilioAuth,
+      twilioNumber: process.env.twilioNumber,
+
+      gmailEmail: process.env.gmailEmail,
+      gmailPassword: process.env.gmailPassword
+    };
+}
+
+
 var client = new twilio.RestClient(secrets.twilioSid, secrets.twilioAuth);
 var number = secrets.twilioNumber;
 var smsOn = false;
