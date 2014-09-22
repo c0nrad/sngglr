@@ -13,7 +13,10 @@ var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/sngglr');
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/sngglr';
+
+mongoose.connect(mongoUri);
+
 // Load Models
 require('./models/index');
 var User = mongoose.model('User');

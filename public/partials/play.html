@@ -1,4 +1,3 @@
-<h1> Play </h1>
 
 <div class="alert alert-danger" role="alert" ng-show="err">
   <strong> Uh oh! </strong> {{err}}
@@ -13,18 +12,26 @@
 </div>
 
 <div ng-show="other.name">
-  <h2> {{other.name}} </h2>
-  <p> {{other.bio}} </p>
-  <p> Gender: {{other.gender}} </p>
-  <p> Wants to: {{other.activity}} </p>
+  <div class="row">
+    <div class="col-md-4">
+      <div ng-repeat="picture in other.pictures">
+        <img ng-src="{{picture.url}}" style="width: 100%">
+      </div>
+    </div>
 
-  <p> Last seen: {{other.lastActivity}} </p>
+    <div class="col-md-8">
 
-  <div ng-repeat="picture in other.pictures">
-    <img ng-src="{{picture.url}}" style="max-width: 300px max-height: 300px">
+      <h2> {{other.name}} </h2>
+      <p> {{other.bio}} </p>
+      <p> Gender: {{other.gender}} </p>
+      <p> Wants to: {{other.activity}} </p>
+
+      <p> Last seen: {{other.lastActivity}} </p>
+
+      <button class="btn btn-success" ng-click="like('yes', other._id)"> Yes </button>
+      <button class="btn btn-info" ng-click="like('maybe', other._id)"> Maybe </button>
+      <button class="btn btn-danger" ng-click="like('no', other._id)"> No </button>
+
+    </div>
   </div>
-
-  <button class="btn btn-success" ng-click="like('yes', other._id)"> Yes </button>
-  <button class="btn btn-info" ng-click="like('maybe', other._id)"> Maybe </button>
-  <button class="btn btn-danger" ng-click="like('no', other._id)"> No </button>
 </div>

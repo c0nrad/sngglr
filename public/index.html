@@ -15,15 +15,15 @@
 
   <body ng-app="sngglr">
 
-    <div class="content">
+    <div class="content container">
       <div ng-controller="HeaderController">
         <a ui-sref="home">SNGGLR</a>
 
         <span ng-hide="me.name" class="pull-right">
-          <a ui-sref="home"> Home </a>
-          <a ui-sref="about"> About </a>
+          <!-- <a ui-sref="home"> Home </a> -->
+          <!-- <a ui-sref="about"> About </a> -->
           <a ui-sref="login">Login</a>
-          <a ui-sref="new.account">New Account</a>
+          <!-- <a ui-sref="new.account">New Account</a> -->
         </span>
 
         <span ng-show="me.name" class="pull-right">

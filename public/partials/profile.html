@@ -1,73 +1,90 @@
-<h3> {{me.name}} </h3>
 
-<label>
-  <input type="checkbox" ng-model="edit"> Edit Mode
-</label>
+<!-- <div ng-show="!edit">
 
-<div ng-show="!edit">
-  <p> {{me.bio}} </p>
+  <div class="row">
+    <div class="col-md-4">
+      <div ng-repeat="picture in pictures">
+        <img width="100%" ng-src="{{picture.url}}">
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h3> {{me.name}} </h3>
 
-  <p> Activity {{me.activity}} </p>
-  <p> Gender: {{me.gender}} </p>
-  <p> Interested In: {{me.looking}} </p>
+      <label>
+        <input type="checkbox" ng-model="edit"> Edit Mode
+      </label>
 
-  <div ng-repeat="picture in pictures">
-    <img ng-src="{{picture.url}}">
-  </div>
-</div>
 
-<div ng-show="edit">
-  <textarea class="form-control" ng-model="me.bio"> </textarea>
+      <p> {{me.bio}} </p>
 
-  <label> Activity:
-    <select class="form-control" ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
-  </label>
+      <p> Activity {{me.activity}} </p>
+      <p> Gender: {{me.gender}} </p>
+      <p> Interested In: {{me.looking}} </p>
+    </div>
 
-  <label> Gender:
-    <select class="form-control" ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
-  </label>
-
-  <label> Interested In:
-    <select class="form-control" ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
-  </label>
-
-  <br />
-
-  <div ng-repeat="picture in pictures">
-    <img ng-src="{{picture.url}}">
-    <button class="btn btn-danger" ng-click="deletePicture(picture)"> Delete </button>
-    <button class="btn btn-info" ng-click="makeFirst(picture)"> Make First </button>
   </div>
 
-  <input type="text" class="form-control" ng-model="picture" placeholder="url">
-  <button class="btn btn-success" ng-click="addPicture()"> Add Picture </button>
+</div> -->
 
-  <br />
+<div>
 
-  <hr />
-  <h3> Private Info </h3>
+  <div class="row">
+    <div class="col-md-4">
+      <div ng-repeat="picture in pictures">
+        <img style="width: 100%" ng-src="{{picture.url}}">
+        <button class="btn btn-danger" ng-click="deletePicture(picture)"> Delete </button>
+        <button class="btn btn-info" ng-click="makeFirst(picture)"> Make First </button>
+      </div>
 
-  <input type="tel" class="form-control" ng-model="me.phone" placeholder="phone">
+      <input type="text" class="form-control" ng-model="picture" placeholder="url">
+      <button class="btn btn-success" ng-click="addPicture()"> Add Picture </button>
+    </div>
 
-  <h4> Notifications </h4>
+    <div class="col-md-8">
 
-  <table class="table">
-    <tr>
-      <th> Type </th>
-      <th> SMS </th>
-      <th> Email </th>
-    </tr>
-    <tr>
-      <th> You get a match </th>
-      <td> <input class="form-control" type="checkbox" ng-model="me.notifications.onMatch.sms"> </td>
-      <td> <input class="form-control" type="checkbox" ng-model="me.notifications.onMatch.email"> </td>
-    </tr>
-    <tr>
-      <th> You recieve a chat </th>
-      <td> <input type="checkbox" ng-model="me.notifications.onChat.sms"> </td>
-      <td> <input type="checkbox" ng-model="me.notifications.onChat.email"> </td>
-    </tr>
-  </table>
+      <h2> {{me.name}} </h2>
+
+      <textarea class="form-control" ng-model="me.bio"> </textarea>
+
+      <label> Activity:
+        <select class="form-control" ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
+      </label>
+
+      <label> Gender:
+        <select class="form-control" ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
+      </label>
+
+      <label> Interested In:
+        <select class="form-control" ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
+      </label>
+
+      <h3> Private Info </h3>
+
+      <input type="tel" class="form-control" ng-model="me.phone" placeholder="phone">
+
+      <h4> Notifications </h4>
+
+      <table class="table">
+        <tr>
+          <th> Type </th>
+          <th> SMS </th>
+          <th> Email </th>
+        </tr>
+        <tr>
+          <th> You get a match </th>
+          <td> <input class="form-control" type="checkbox" ng-model="me.notifications.onMatch.sms"> </td>
+          <td> <input class="form-control" type="checkbox" ng-model="me.notifications.onMatch.email"> </td>
+        </tr>
+        <tr>
+          <th> You recieve a chat </th>
+          <td> <input type="checkbox" ng-model="me.notifications.onChat.sms"> </td>
+          <td> <input type="checkbox" ng-model="me.notifications.onChat.email"> </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
 
   <button class="btn btn-lg btn-primary" ng-click="me.$update()"> Save </button>
 </div>
