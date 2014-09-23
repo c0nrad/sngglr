@@ -158,6 +158,7 @@ app.controller('ForgotController', function(User, $scope, $http) {
 
 app.controller('MatchController', function(User, Match, Picture, Chat, $http, $scope, $state, $stateParams) {
   $scope.me = User.me(function(me) {
+    $scope.me.pictures = Picture.query({user: me._id})
     $scope.match = Match.get({user: me._id, id: $stateParams.match}, function(match) {
       $scope.other = User.get({id: match.other.user});
       $scope.pictures = Picture.query({user: match.other.user});
@@ -173,6 +174,7 @@ app.controller('MatchController', function(User, Match, Picture, Chat, $http, $s
     c.$save(function() {
       $scope.chats = Chat.query({match: $stateParams.match, user: $scope.me._id});
     });
+    $scope.message = ""
   };
 
   $scope.unmatch = function() {
@@ -182,7 +184,7 @@ app.controller('MatchController', function(User, Match, Picture, Chat, $http, $s
   };
 });
 
-app.controller('MatchesController', function(User, Match, Picture, $scope) {
+app.controller('MatchesController', function(User, Match, Picture, $scope, $state) {
   $scope.me = User.me(function(me) {
     Match.query({user: me._id}, function(matches) {
       for (var i = 0; i < matches.length; ++i) {
@@ -193,6 +195,10 @@ app.controller('MatchesController', function(User, Match, Picture, $scope) {
       $scope.matches = matches;
     });
   });
+
+  $scope.gotoMatch = function(id) {
+    $state.go('match', {match: id});
+  };
 });
 
 app.controller('PlayController', function(User, Play, $scope) {
@@ -283,5 +289,11 @@ app.controller('LoginController', function($http, $scope, $state, User, $rootSco
     .error(function(err) {
       $scope.err = err;
     });
+  };
+});
+
+app.filter('fromNow', function() {
+  return function(date) {
+    return moment(date).fromNow();
   };
 });

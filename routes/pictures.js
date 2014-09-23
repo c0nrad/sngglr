@@ -8,7 +8,7 @@ var Picture = mongoose.model('Picture');
 
 var async = require('async');
 
-router.post('/pictures', function (req, res, next) {
+router.post('/users?/:user/pictures', function (req, res, next) {
   if (!req.user) {
     return next(401);
   }
@@ -36,12 +36,12 @@ router.post('/pictures', function (req, res, next) {
   });
 });
 
-router.get('/pictures', function(req, res, next) {
+router.get('/users?/:user/pictures', function(req, res, next) {
   if (!req.user) {
     return next(401);
   }
 
-  Picture.find({user: req.user._id}).sort({z: 1}).exec(function(err, pictures) {
+  Picture.find({user: req.params.user}).sort({z: 1}).exec(function(err, pictures) {
     if (err) {
       return next(err);
     }
@@ -50,7 +50,7 @@ router.get('/pictures', function(req, res, next) {
   });
 });
 
-router.delete('/pictures/:id', function(req, res, next) {
+router.delete('/users?/:user/pictures/:id', function(req, res, next) {
   if (!req.user) {
     return next(401);
   }
@@ -64,7 +64,7 @@ router.delete('/pictures/:id', function(req, res, next) {
   });
 });
 
-router.put('/pictures/:id/first', function(req, res, next) {
+router.put('/users?/:user/pictures/:id/first', function(req, res, next) {
   if (!req.user) {
     return next(401);
   }

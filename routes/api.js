@@ -17,8 +17,10 @@ var resetRoutes = require('./reset');
 var confirmationRoutes = require('./confirmations');
 
 router.use('/api/users?', userRoutes);
-router.use('/api/users?/:person', pictureRoutes);
 router.use('/api/users?/:person', likeRoutes);
+
+router.use('/api', pictureRoutes);
+
 router.use('/api', chatRoutes);
 router.use('/api', matchRoutes);
 router.use('/api', playRoutes);

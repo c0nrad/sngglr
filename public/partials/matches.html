@@ -2,19 +2,19 @@
 
 <table class="table">
   <tr>
-    <th> Link </th>
-    <th> Match Date </th>
+    <th> Picture </th>
     <th> Name </th>
+    <th> Match Date </th>
+    <th> Match Type </th>
     <th> Date Last Activity </th>
     <th> Chats </th>
-    <th> Picture </th>
   </tr>
-  <tr ng-repeat="match in matches">
-    <td> <a href="/#/matches/{{match._id}}"> Link </a>
-    <td> {{match.ts | date:'medium'}} </td>
+  <tr ng-repeat="match in matches" ng-click="gotoMatch(match._id)">
+    <td> <img ng-src="{{match.pictures[0].url}}" style="width: 75px; height: 75px"> </td>
     <td> {{match.other.name}} </td>
-    <td> {{match.other.lastActivity | date:'medium'}} </td>
+    <td> {{match.matchType}}
+    <td> {{match.ts  | fromNow}} </td>
+    <td> {{match.other.lastActivity | fromNow}} </td>
     <td> {{match.chats.length || 0 }} </td>
-    <td> <img ng-src="{{match.pictures[0].url}}" style="width: 50px; height: 50px"> </td>
   </tr>
 </table>

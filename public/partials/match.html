@@ -1,12 +1,60 @@
 <h1> Match </h1>
 
-<!-- {{match}} -->
+<div ng-show="other.name">
+  <div class="row">
+    <div class="col-md-4">
+      <div ng-repeat="picture in pictures">
+        <img ng-src="{{picture.url}}" style="width: 100%">
+      </div>
+    </div>
 
-<div ng-repeat="chat in chats" class="well">
-  <p> From: {{chat.from.name}} </p>
-  <p> To: {{chat.to.name}} </p>
-  <p> On: {{chat.ts}} </p>
-  <p> {{chat.message}} </p>
+    <div class="col-md-8">
+
+      <h2> {{other.name}} </h2>
+      <p> {{other.bio}} </p>
+      <p> Gender: {{other.gender}} </p>
+      <p> Wants to: {{other.activity}} </p>
+
+      <p> Last seen: {{other.lastActivity | fromNow }} </p>
+
+    </div>
+  </div>
+</div>
+
+<br />
+
+<div ng-repeat="chat in chats" class="well well-sm">
+  <!-- {{chat}} -->
+  <div ng-if="chat.from.user === me._id">
+
+    <div class="row">
+      <div class="col-md-10">
+        <blockquote class="blockquote-reverse">
+          <p>{{chat.message}}</p>
+          <footer>{{chat.ts | fromNow}}</footer>
+        </blockquote>
+      </div>
+
+      <div class="col-md-2" style="text-align: center">
+        <img class="img-circle" style="width: 75%" ng-src="{{me.pictures[0].url}}">
+      </div>
+    </div>
+  </div>
+  <div ng-if="chat.from.user !== me._id">
+
+    <div class="row">
+      <div class="col-md-2" style="text-align: center">
+        <img class="img-circle" style="width: 75%" ng-src="{{pictures[0].url}}">
+      </div>
+      <div class="col-md-10">
+        <blockquote>
+          <p>{{chat.message}}</p>
+          <footer>{{chat.ts | fromNow}}</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"> </div>
 </div>
 
 <br />
