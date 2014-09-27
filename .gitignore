@@ -2,3 +2,4 @@ node_modules/
 log.log
 exceptions.log
 secrets.js
+public/img/pictures

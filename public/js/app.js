@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('sngglr', ['ui.router', 'ngResource']);
+var app = angular.module('sngglr', ['ui.router', 'ngResource', 'angularFileUpload']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -225,7 +225,7 @@ app.controller('HeaderController', function(User, $scope, $rootScope, $state) {
   };
 });
 
-app.controller('ProfileController', function(User, Picture, $scope) {
+app.controller('ProfileController', function(User, Picture, $scope, $upload) {
   $scope.imgIndex = 0;
 
   $scope.me = User.me(function(me) {
@@ -234,9 +234,9 @@ app.controller('ProfileController', function(User, Picture, $scope) {
     });
   });
 
-  $scope.addPicture = function() {
-    console.log('add', $scope.me._id);
-    User.addPicture({_id: $scope.me._id, url: $scope.picture}, function() {
+  $scope.addPicture = function(url) {
+
+    User.addPicture({_id: $scope.me._id, url: url}, function() {
       $scope.pictures = Picture.query({user: $scope.me._id}, function(pictures) {
         $scope.imgIndex = $scope.pictures.length - 1;
       });
@@ -264,6 +264,21 @@ app.controller('ProfileController', function(User, Picture, $scope) {
     $scope.imgIndex -= 1;
     $scope.imgIndex += $scope.pictures.length;
     $scope.imgIndex %= $scope.pictures.length;
+  };
+
+  $scope.onFileSelect = function($files) {
+    for (var i = 0; i < $files.length; i++) {
+      var file = $files[i];
+      $scope.upload = $upload.upload({
+        url: '/api/users/' + $scope.me._id + '/pictures/upload',
+        method: 'POST',
+        file: file, // or list of files ($files) for html5 only
+      }).success(function(data, status, headers, config) {
+        console.log(data);
+        $scope.addPicture(data);
+      });
+      //.error(...)
+    }
   };
 });
 

@@ -6,6 +6,8 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multipart = require('connect-multiparty');
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -36,6 +38,10 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(multipart({
+}));
+
+
 // Persist sessions with mongoStore
 app.use(session({
   secret: 'i4m41337h4x0r??',
@@ -43,7 +49,6 @@ app.use(session({
     url: mongoUri,
     collection: 'sessions'
   }, function () {
-    console.log('db connection open');
   })
 }));
 
@@ -69,7 +74,6 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  console.log("I AM IN DEV")
     app.use(function(err, req, res, next) {
       console.log("ERROR HANDLE!");
         res.status(err.status || 400);

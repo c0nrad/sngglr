@@ -1,7 +1,6 @@
-
 <div class="row">
-  {{imgIndex}}
   <div class="col-md-4">
+    <br />
     <div ng-show="pictures.length">
       <img style="width: 100%" ng-src="{{pictures[imgIndex].url}}">
 
@@ -21,8 +20,11 @@
       </div>
     </div>
 
-    <input type="text" class="form-control" ng-model="picture" placeholder="url">
-    <button class="btn btn-success" ng-click="addPicture()"> Add Picture </button>
+    <label> Upload Picture
+      <input type="file" class="form-control" ng-file-select="onFileSelect($files)">
+    </label>
+    <!-- <input type="text" class="form-control" ng-model="picture" placeholder="url"> -->
+    <!-- <button class="btn btn-success" ng-click="addPicture()"> Add Picture </button> -->
   </div>
 
   <div class="col-md-8">
