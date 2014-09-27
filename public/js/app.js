@@ -226,6 +226,8 @@ app.controller('HeaderController', function(User, $scope, $rootScope, $state) {
 });
 
 app.controller('ProfileController', function(User, Picture, $scope) {
+  $scope.imgIndex = 0;
+
   $scope.me = User.me(function(me) {
     $scope.pictures = Picture.query({user: me._id}, function() {
       console.log(arguments);
@@ -235,18 +237,33 @@ app.controller('ProfileController', function(User, Picture, $scope) {
   $scope.addPicture = function() {
     console.log('add', $scope.me._id);
     User.addPicture({_id: $scope.me._id, url: $scope.picture}, function() {
-      $scope.pictures = Picture.query({user: $scope.me._id});
+      $scope.pictures = Picture.query({user: $scope.me._id}, function(pictures) {
+        $scope.imgIndex = $scope.pictures.length - 1;
+      });
     });
   };
 
   $scope.deletePicture = function(picture) {
     picture.$delete();
     $scope.pictures = Picture.query({user: $scope.me._id});
+    $scope.imgIndex = 0;
   };
 
   $scope.makeFirst = function(picture) {
     picture.$first();
     $scope.pictures = Picture.query({user: $scope.me._id});
+    $scope.imgIndex = 0;
+  };
+
+  $scope.nextPicture = function() {
+    $scope.imgIndex += 1;
+    $scope.imgIndex %= $scope.pictures.length;
+  };
+
+  $scope.prevPicture = function() {
+    $scope.imgIndex -= 1;
+    $scope.imgIndex += $scope.pictures.length;
+    $scope.imgIndex %= $scope.pictures.length;
   };
 });
 

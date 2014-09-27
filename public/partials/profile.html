@@ -1,10 +1,24 @@
 
 <div class="row">
+  {{imgIndex}}
   <div class="col-md-4">
-    <div ng-repeat="picture in pictures">
-      <img style="width: 100%" ng-src="{{picture.url}}">
-      <button class="btn btn-danger" ng-click="deletePicture(picture)"> Delete </button>
-      <button class="btn btn-info" ng-click="makeFirst(picture)"> Make First </button>
+    <div ng-show="pictures.length">
+      <img style="width: 100%" ng-src="{{pictures[imgIndex].url}}">
+
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group">
+          <button class="btn btn-info" ng-click="prevPicture()"> Previous </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-danger" ng-click="deletePicture(pictures[imgIndex])"> Delete </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-warning" ng-click="makeFirst(pictures[imgIndex])"> Make First </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-info" ng-click="nextPicture()"> Next </button>
+        </div>
+      </div>
     </div>
 
     <input type="text" class="form-control" ng-model="picture" placeholder="url">
