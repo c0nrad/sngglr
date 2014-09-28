@@ -1,8 +1,10 @@
 <h2> Step Three: Create Profile </h2>
 
+<div ng-include="'partials/profile.html'"> </div>
+<!--
 <div class="row">
   <div class="col-md-4">
-    
+
     <div ng-repeat="picture in pictures">
       <img style="width: 100%" ng-src="{{picture.url}}">
       <button class="btn btn-danger" ng-click="deletePicture(picture)"> Delete </button>
@@ -27,16 +29,15 @@
 
     <label> Interested In:
       <select class="form-control" ng-blur="me.$update()" ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
-    </label>
+    </label> -->
 
-    <br /> <br />
-    <div class="alert alert-danger" ng-show="!pictures.length">
-      You need a picture!
-    </div>
 
-    <div ng-show="pictures.length">
-      <div class="alert alert-success"> <strong> Great Work! </strong> All done! </div>
-      <a class="btn btn-success btn-lg" ui-sref="play"> Get Snggling! </a>
-    </div>
+  <br /> <br />
+  <div class="alert alert-danger" ng-show="!pictures.length">
+    You need a picture!
   </div>
-</div>
+
+  <div ng-show="pictures.length">
+    <div class="alert alert-success"> <strong> Great Work! </strong> All done! </div>
+    <a class="btn btn-success btn-lg" ui-sref="play"> Get Snggling! </a>
+  </div>
