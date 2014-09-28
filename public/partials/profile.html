@@ -21,10 +21,9 @@
     </div>
 
     <label> Upload Picture
-      <input type="file" class="form-control" ng-file-select="onFileSelect($files)">
+      <input type="file" id="files"/>
+      <input type="hidden" ng-change="zzz()" ng-model="s3_url" id="s3_url" onchange="angular.element(this).scope().zzz(this)">
     </label>
-    <!-- <input type="text" class="form-control" ng-model="picture" placeholder="url"> -->
-    <!-- <button class="btn btn-success" ng-click="addPicture()"> Add Picture </button> -->
   </div>
 
   <div class="col-md-8">
@@ -72,3 +71,5 @@
     </table>
   </div>
 </div>
+
+<script src="/js/s3_upload.js"> </script>
