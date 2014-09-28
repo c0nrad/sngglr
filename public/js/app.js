@@ -182,6 +182,19 @@ app.controller('MatchController', function(User, Match, Picture, Chat, $http, $s
       $state.go('matches');
     });
   };
+
+  $scope.imgIndex = 0;
+  $scope.nextPicture = function() {
+    $scope.imgIndex += 1;
+    $scope.imgIndex %= $scope.pictures.length;
+  };
+
+  $scope.prevPicture = function() {
+    $scope.imgIndex -= 1;
+    $scope.imgIndex += $scope.pictures.length;
+    $scope.imgIndex %= $scope.pictures.length;
+  };
+
 });
 
 app.controller('MatchesController', function(User, Match, Picture, $scope, $state) {
@@ -211,6 +224,19 @@ app.controller('PlayController', function(User, Play, $scope) {
       $scope.err = '';
     }, function(response) { console.log(response); $scope.err = response.data; });
   };
+
+  $scope.imgIndex = 0;
+  $scope.nextPicture = function() {
+    $scope.imgIndex += 1;
+    $scope.imgIndex %= $scope.other.pictures.length;
+  };
+
+  $scope.prevPicture = function() {
+    $scope.imgIndex -= 1;
+    $scope.imgIndex += $scope.other.pictures.length;
+    $scope.imgIndex %= $scope.other.pictures.length;
+  };
+
 });
 
 app.controller('HeaderController', function(User, $scope, $rootScope, $state) {
