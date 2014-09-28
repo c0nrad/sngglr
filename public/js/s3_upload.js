@@ -151,6 +151,8 @@ function s3_upload(){
       s3_sign_put_url: '/sign_s3',
       s3_object_name: makeid(),
       onProgress: function(percent, message) {
+        console.log('progress', percent);
+        angular.element('#s3_url').scope().setProgress(percent);
       },
       onFinishS3Put: function(public_url) {
         angular.element('#s3_url').scope().addPicture(public_url);

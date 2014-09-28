@@ -234,8 +234,15 @@ app.controller('ProfileController', function(User, Picture, $scope, $upload) {
     });
   });
 
-  $scope.addPicture = function(url) {
+  $scope.progress = 0;
+  $scope.setProgress = function(p) {
+    $scope.$apply(function() {
+      $scope.progress = p;
+    });
+  };
 
+  $scope.addPicture = function(url) {
+    $scope.progress = 0;
     User.addPicture({_id: $scope.me._id, url: url}, function() {
       $scope.pictures = Picture.query({user: $scope.me._id}, function(pictures) {
         $scope.imgIndex = $scope.pictures.length - 1;

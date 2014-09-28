@@ -23,6 +23,13 @@
     <label> Upload Picture
       <input type="file" id="files"/>
       <input type="hidden" ng-change="zzz()" ng-model="s3_url" id="s3_url" onchange="angular.element(this).scope().zzz(this)">
+
+      <div class="progress" ng-show="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( progress + '%' ) }">
+          <span class="sr-only">{{progress}}% Complete</span>
+        </div>
+      </div>
+
     </label>
   </div>
 
