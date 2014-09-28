@@ -1,5 +1,7 @@
 'use strict';
 
+console.log(__dirname);
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -39,7 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(multipart({
-  uploadDir: 'tmp'
+  uploadDir: __dirname + '/tmp'
 }));
 
 

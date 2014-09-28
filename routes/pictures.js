@@ -14,7 +14,9 @@ router.post('/users?/:user/pictures/upload', function (req, res) {
   var file = req.files.file;
 
   crypto.randomBytes(48, function(ex, buf) {
-    var name = 'public/img/pictures/' + buf.toString('hex');
+    var name = __dirname + '/../public/img/pictures/' + buf.toString('hex');
+
+    console.log("moving", file.path, " to", name);
     fs.renameSync(file.path, name);
     res.send('/img/pictures/' + buf.toString('hex'));
   });
