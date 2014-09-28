@@ -65,35 +65,6 @@ router.post('/like', function(req, res, next) {
       l.save(next);
     }],
 
-    likeNotification: ['like', 'other', function(next, results) {
-      var other = results.other;
-      if (likeType === 'no' || likeType === 'maybe') {
-        return next(null, 'not a yes like');
-      }
-
-      async.auto({
-        sms: function(next) {
-          if (other.notifications.onLike.sms) {
-            return notifications.sms(other.phone, notifications.onLike.sms, next);
-          }
-          next();
-        },
-
-        email: function(next) {
-          if (other.notifications.onLike.email) {
-            return notifications.email(other.email, 'Sngglr: New Like!', notifications.onLike.email, next);
-          }
-          next();
-        }
-      }, function(err, results) {
-        if (err) {
-          console.log(err, results);
-        }
-
-        next(null, JSON.stringify(err) + results);
-      });
-    }],
-
     match: ['otherLike', 'me', 'other', function(next, results) {
       var me = results.me;
       var other = results.other;

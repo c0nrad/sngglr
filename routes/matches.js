@@ -12,24 +12,24 @@ var Like = mongoose.model('Like');
 
 router.get('/users/:user/matches', function(req, res, next) {
 	Match.find({'users' : {$elemMatch: {user: req.user._id}}}, function(err, matches) {
-    	if (err) {
-				return next(err);
-			}
+  	if (err) {
+			return next(err);
+		}
 
-			var out = matches.map(function(m) {
-				var match = m.toJSON();
-				for (var i = 0; i < match.users.length; ++i) {
-					var user = match.users[i];
-					if (user.user.toString() === req.user._id.toString()) {
-						match.me = user;
-					} else {
-						match.other = user;
-					}
+		var out = matches.map(function(m) {
+			var match = m.toJSON();
+			for (var i = 0; i < match.users.length; ++i) {
+				var user = match.users[i];
+				if (user.user.toString() === req.user._id.toString()) {
+					match.me = user;
+				} else {
+					match.other = user;
 				}
-				return match;
-			});
-    	res.json(out);
-  	});
+			}
+			return match;
+		});
+  	res.json(out);
+	});
 });
 
 router.put('/users/:user/matches/:match/seen', function(req, res, next) {
@@ -103,17 +103,9 @@ router.delete('/users/:user/matches/:match', function(req, res, next) {
 			Like.findOne({ 'liker.user': match.me.user, 'likee.user': match.other.user}, next);
 		}],
 
-		chats: ['match', function(next, results) {
+		removeChats: ['match', function(next, results) {
 			var match = results.match;
-			Chat.find({match: match._id}, next);
-		}],
-
-		removeChats: ['chats', function(next, results) {
-			var chats = results.chats;
-			if (!chats || chats.length === 0) {
-				return next();
-			}
-			chats.remove(next);
+			Chat.find({match: match._id}).remove(next);
 		}],
 
 		changeLike: ['like', function(next, results) {

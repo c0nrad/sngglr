@@ -80,13 +80,6 @@ exports.resetEmail = function(token) {
   'Sngglr Team';
 };
 
-exports.onLike = {};
-exports.onLike.sms = 'Someone just liked you on Sngglr';
-exports.onLike.email = 'Howdy\n\n' +
-'Someone on Sngglr just liked you!\n' +
-'Enjoy :),\n' +
-'Sngglr Team';
-
 exports.onMatch = {};
 exports.onMatch.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Say Hai!'; };
 exports.onMatch.email = function(name) {
