@@ -78,13 +78,11 @@ router.post('/', function (req, res, next) {
       var to = user.email;
       var token = confirmation.token;
 
-      var body = 'Howdy! \
-      \
-      Welcome to Sngglr! To get started please click the following link to confirm your email! \
-      http://sngglr.com/#/confirmation/' + token + ' \
-      \
-      Happy Snuggling!\
-      Sngglr Team';
+      var body = 'Howdy!\n\n' +
+      'Welcome to Sngglr! To get started please click the following link to confirm your email!\n' +
+      'http://sngglr.com/#/confirmation/' + token + '\n\n' +
+      'Happy Snuggling!\n' +
+      'Sngglr Team';
 
       notifications.email(to, 'Sngglr: Confirm Email', body, next);
     }]

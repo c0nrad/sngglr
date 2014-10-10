@@ -19,34 +19,38 @@ console.log(secrets)
 var client = new twilio.RestClient(secrets.twilioSid, secrets.twilioAuth);
 var number = secrets.twilioNumber;
 
-var nodemailer = require('nodemailer');
 
-if (secrets.emailOn) {
-  var transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-          user: secrets.gmailEmail,
-          pass: secrets.gmailPasswod
-      }
-  });
-}
+var sendgrid  = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
+
 
 exports.email = function(to, subject, body, next) {
-  console.log('email', to, body);
-
-  if (secrets.emailOn) {
-    var mailOptions = {
-      from: secrets.gmailEmail,
-      to: to,
-      subject: subject,
-      text: body,
-    };
-
-    transporter.sendMail(mailOptions, next);
-  } else {
-    next();
-  }
+  sendgrid.send({
+    to:       to,
+    from:     'admin@sngglr.com',
+    subject:  subject,
+    text:     body
+  }, function(err, json) {
+    if (err) { return console.error(err); }
+    console.log(json);
+    next(err, json);
+  });
+  // console.log('email', to, body);
+  //
+  // if (secrets.emailOn) {
+  //   var mailOptions = {
+  //     from: secrets.gmailEmail,
+  //     to: to,
+  //     subject: subject,
+  //     text: body,
+  //   };
+  //
+  //   transporter.sendMail(mailOptions, next);
+  // } else {
+  //   next();
+  // }
 };
+
+
 
 exports.sms = function(to, body, next) {
   console.log('sms', to, body);
@@ -80,7 +84,7 @@ exports.onMatch = {};
 exports.onMatch.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Say Hai!'; };
 exports.onMatch.email = function(name) {
   return 'Howdy\n\n' +
-'You just matched with ' + name + '! Say hai!\n' +
+'You just matched with ' + name + '! Say hai!\n\n' +
 'Enjoy :),\n' +
 'Sngglr Team\nhttp://sngglr.com';
 };
