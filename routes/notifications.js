@@ -2,35 +2,31 @@
 
 var twilio = require('twilio');
 
-try {
-    var secrets = require('../secrets');
-} catch(e) {
-    secrets = {
-      twilioSid: process.env.twilioSid,
-      twilioAuth: process.env.twilioAuth,
-      twilioNumber: process.env.twilioNumber,
+var secrets = {
+  twilioSid: process.env.twilioSid,
+  twilioAuth: process.env.twilioAuth,
+  twilioNumber: process.env.twilioNumber,
 
-      gmailEmail: process.env.gmailEmail,
-      gmailPassword: process.env.gmailPassword
-    };
-}
+  gmailEmail: process.env.gmailEmail,
+  gmailPassword: process.env.gmailPassword,
 
+  smsOn: process.env.smsOn,
+  emailOn: process.env.emailOn
+};
+
+console.log(secrets)
 
 var client = new twilio.RestClient(secrets.twilioSid, secrets.twilioAuth);
 var number = secrets.twilioNumber;
-var smsOn = false;
 
 var nodemailer = require('nodemailer');
-var email = secrets.gmailEmail;
-var password = secrets.gmailPasswod;
-var emailOn = false;
 
-if (emailOn) {
+if (secrets.emailOn) {
   var transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-          user: email,
-          pass: password
+          user: secrets.gmailEmail,
+          pass: secrets.gmailPasswod
       }
   });
 }
@@ -38,9 +34,9 @@ if (emailOn) {
 exports.email = function(to, subject, body, next) {
   console.log('email', to, body);
 
-  if (emailOn) {
+  if (secrets.emailOn) {
     var mailOptions = {
-      from: email,
+      from: secrets.gmailEmail,
       to: to,
       subject: subject,
       text: body,
@@ -55,11 +51,11 @@ exports.email = function(to, subject, body, next) {
 exports.sms = function(to, body, next) {
   console.log('sms', to, body);
 
-  if (to === undefined || to === null || typeof to !== 'string' | to.length < 7) {
+  if (to === undefined || to === null || typeof to !== 'string' || to.length < 7) {
     return next(null, 'Invalid phone number');
   }
 
-  if (smsOn) {
+  if (secrets.smsOn) {
     client.sms.messages.create({
       to: to,
       from: number,
@@ -103,4 +99,4 @@ exports.inviteEmail = function(email) {
   '\n' +
   'Made by MTU/FU students for MTU/FU students,\n' +
   'Sngglr Team';
-}
+};

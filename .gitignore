@@ -1,6 +1,6 @@
 node_modules/
 log.log
 exceptions.log
-secrets.js
+.env
 public/img/pictures
 secrets.dump
