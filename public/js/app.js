@@ -109,12 +109,13 @@ app.service('Chat', function($resource) {
   return $resource('/api/users/:user/matches/:match/chats/:id', {id: '@_id', user: '@user', match: '@match'}, {seen: {url: '/api/users/:user/matches/:match/chats/seen', method: 'PUT'}});
 });
 
-app.controller('ConfirmationController', function($scope, $http, $stateParams) {
+app.controller('ConfirmationController', function($scope, $http, $stateParams, $state) {
   console.log($stateParams.token);
 
   var token = $stateParams.token;
   $http.post('/api/confirmation/' + token)
   .success(function() {
+    $state.go('new.verify');
     console.log('wahoo! confirmed');
   })
   .error(function(err) {
