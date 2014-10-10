@@ -18,6 +18,10 @@ var router = express.Router();
 
 var logger = require('../logger');
 
+var secrets = {
+  hostname: process.env.HOSTNAME
+};
+
 router.post('/', function (req, res, next) {
   logger.info('Creating new user:', req.body.name, req.body.email);
 
@@ -80,7 +84,7 @@ router.post('/', function (req, res, next) {
 
       var body = 'Howdy!\n\n' +
       'Welcome to Sngglr! To get started please click the following link to confirm your email!\n' +
-      'http://sngglr.com/#/confirmation/' + token + '\n\n' +
+      'http://' + secrets.hostname + '/#/confirmation/' + token + '\n\n' +
       'Happy Snuggling!\n' +
       'Sngglr Team';
 
