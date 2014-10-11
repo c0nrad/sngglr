@@ -33,12 +33,16 @@ router.post('/users?/:user/pictures', function (req, res, next) {
 
   async.auto({
     maxIndex: function(next) {
-      Picture.find({user: req.user._id}, 'z').sort({z: 1}).limit(1).exec(next);
+      Picture.find({user: req.user._id}, 'z').sort({z: -1}).limit(1).exec(next);
     },
 
     picture: ['maxIndex', function(next, results) {
-      var z = results.maxIndex.z || 1;
-      var picture = new Picture({url: req.body.url, z: z, user: req.user._id});
+      console.log(results);
+      var z = 1;
+      if (results.maxIndex.length) {
+        z = results.maxIndex[0].z;
+      }
+      var picture = new Picture({url: req.body.url, z: z+1, user: req.user._id});
       picture.save(next);
     }],
   }, function(err, results) {
@@ -55,7 +59,7 @@ router.get('/users?/:user/pictures', function(req, res, next) {
     return next(401);
   }
 
-  Picture.find({user: req.params.user}).sort({z: 1}).exec(function(err, pictures) {
+  Picture.find({user: req.params.user}).sort({z: -1}).exec(function(err, pictures) {
     if (err) {
       return next(err);
     }
