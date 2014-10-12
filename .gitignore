@@ -4,3 +4,6 @@ exceptions.log
 .env
 public/img/pictures
 secrets.dump
+TODO
+exceptions.log
+log.log

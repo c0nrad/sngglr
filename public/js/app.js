@@ -157,16 +157,22 @@ app.controller('ForgotController', function(User, $scope, $http) {
   };
 });
 
-app.controller('MatchController', function(User, Match, Picture, Chat, $http, $scope, $state, $stateParams) {
+app.controller('MatchController', function(User, $rootScope, Match, Picture, Chat, $http, $scope, $state, $stateParams) {
   $scope.me = User.me(function(me) {
     $scope.me.pictures = Picture.query({user: me._id})
     $scope.match = Match.get({user: me._id, id: $stateParams.match}, function(match) {
       $scope.other = User.get({id: match.other.user});
       $scope.pictures = Picture.query({user: match.other.user});
       $scope.chats = Chat.query({match: match._id, user: me._id}, function() {
-        $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/chats/seen');
+        $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/chats/seen')
+        .success(function() {
+          $rootScope.me = User.me();
+        });
       });
-      $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/seen');
+      $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/seen')
+      .success(function() {
+        $rootScope.me = User.me();
+      });
     });
   });
 
@@ -215,12 +221,13 @@ app.controller('MatchesController', function(User, Match, Picture, $scope, $stat
   };
 });
 
-app.controller('PlayController', function(User, Play, $scope) {
+app.controller('PlayController', function(User, Play, $scope, $rootScope) {
   $scope.me = User.me();
   $scope.other = Play.get(function() { $scope.err = ''; }, function(err) { $scope.err = err.data; });
 
   $scope.like = function(likeType, other) {
     $scope.me.$like({id: $scope.me._id, likeType: likeType, other: other}, function() {
+      $rootScope.me = User.me();
       $scope.other = Play.get();
       $scope.err = '';
     }, function(response) { console.log(response); $scope.err = response.data; });
@@ -240,7 +247,7 @@ app.controller('PlayController', function(User, Play, $scope) {
 
 });
 
-app.controller('HeaderController', function(User, $scope, $rootScope, $state) {
+app.controller('HeaderController', function(User, Match, $scope, $rootScope, $state) {
   $rootScope.me = User.me();
 
   $scope.logout = function() {

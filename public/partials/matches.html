@@ -1,5 +1,5 @@
 <h1> Matches </h1>
-
+{{matches}}
 <table class="table">
   <tr>
     <th> Picture </th>
@@ -9,7 +9,7 @@
     <th> Date Last Activity </th>
     <th> Chats </th>
   </tr>
-  <tr ng-repeat="match in matches" ng-click="gotoMatch(match._id)">
+  <tr ng-repeat="match in matches" ng-click="gotoMatch(match._id)" ng-class="{ success: !match.me.seen }">
     <td> <img ng-src="{{match.pictures[0].url}}" style="width: 75px; height: 75px"> </td>
     <td> {{match.other.name}} </td>
     <td> {{match.matchType}}

@@ -32,13 +32,21 @@ router.get('/users/:user/matches', function(req, res, next) {
 	});
 });
 
+// FIX ME
 router.put('/users/:user/matches/:match/seen', function(req, res, next) {
 	Match.update({_id: req.params.match}, { $set: {'users.0.seen': true, 'users.1.seen': true}}, function(err) {
 		if (err) {
 			return next(err);
 		}
 
-		res.send('okay');
+		Chat.update({match: req.params.match}, {$set: { 'to.seen': true}}, {multi: true}, function(err) {
+			if (err) {
+				return next(err);
+			}
+
+			res.send('okay');
+		});
+
 	});
 });
 

@@ -24,6 +24,7 @@
 
         <span ng-hide="me.name" class="pull-right">
           <ul class="nav nav-pills">
+            <li> <a ui-sref="new.account">Register</a> </li>
             <li> <a ui-sref="login">Login</a> </li>
           </ul>
         </span>
@@ -32,7 +33,7 @@
           <ul class="nav nav-pills">
             <li> <a ui-sref="profile">Profile</a> </li>
             <li> <a ui-sref="play">Play</a> </li>
-            <li> <a ui-sref="matches">Matches</a> </li>
+            <li> <a ui-sref="matches">Matches<span ng-show="me.unseenMatches" class="badge">{{me.unseenMatches}}</span></a> </li>
             <li> <a ng-click="logout()" href="#">Logout</a> </li>
           </ul>
         </span>
