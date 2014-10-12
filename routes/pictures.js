@@ -16,7 +16,6 @@ router.post('/users?/:user/pictures/upload', function (req, res) {
   crypto.randomBytes(48, function(ex, buf) {
     var name = __dirname + '/../public/img/pictures/' + buf.toString('hex');
 
-    console.log("moving", file.path, " to", name);
     fs.renameSync(file.path, name);
     res.send('/img/pictures/' + buf.toString('hex'));
   });
@@ -42,7 +41,7 @@ router.post('/users?/:user/pictures', function (req, res, next) {
       if (results.maxIndex.length) {
         z = results.maxIndex[0].z;
       }
-      var picture = new Picture({url: req.body.url, z: z+1, user: req.user._id});
+      var picture = new Picture({url: req.body.url, z: z+2, user: req.user._id});
       picture.save(next);
     }],
   }, function(err, results) {
@@ -96,7 +95,7 @@ router.put('/users?/:user/pictures/:id/first', function(req, res, next) {
     first: ['maxIndex', function(next, results) {
       console.log(results);
       var z = results.maxIndex[0].z || 1;
-      Picture.findByIdAndUpdate(req.params.id, {z: z+1}).exec(next);
+      Picture.findByIdAndUpdate(req.params.id, {z: z+2}).exec(next);
     }]
   }, function(err, results) {
     if (err) {
