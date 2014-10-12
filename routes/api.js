@@ -15,6 +15,8 @@ var matchRoutes = require('./matches');
 var chatRoutes = require('./chats');
 var resetRoutes = require('./reset');
 var confirmationRoutes = require('./confirmations');
+var reportRoutes = require('./reports');
+var inviteRoutes = require('./invites');
 var s3 = require('./s3');
 
 router.use('/api/users?', userRoutes);
@@ -29,6 +31,8 @@ router.use('/api', sessionRoutes);
 router.use('/api', resetRoutes);
 router.use('/api', confirmationRoutes);
 
+router.use('/', inviteRoutes);
+router.use('/', reportRoutes);
 router.use('/', s3);
 
 module.exports = router;

@@ -86,6 +86,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('about', {
       url: '/about',
       templateUrl: 'partials/about.html'
+    })
+
+    .state('contact', {
+      url: '/contact',
+      templateUrl: 'partials/contact.html'
     });
  });
 
@@ -217,7 +222,7 @@ app.controller('MatchesController', function(User, Match, Picture, Chat, $scope,
   };
 });
 
-app.controller('PlayController', function(User, Play, $scope, $rootScope) {
+app.controller('PlayController', function(User, Play, $scope, $http, $rootScope) {
   $scope.me = User.me();
   $scope.other = Play.get(function() { $scope.err = ''; }, function(err) { $scope.err = err.data; });
 
@@ -239,6 +244,18 @@ app.controller('PlayController', function(User, Play, $scope, $rootScope) {
     $scope.imgIndex -= 1;
     $scope.imgIndex += $scope.other.pictures.length;
     $scope.imgIndex %= $scope.other.pictures.length;
+  };
+
+  $scope.invite = function() {
+    console.log($scope.email);
+
+    $http.post('/invite', {email: $scope.email})
+    .success(function(a) {
+      $scope.msg = a;
+    })
+    .error(function(err) {
+      $scope.err = err;
+    });
   };
 
 });

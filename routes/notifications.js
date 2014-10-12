@@ -24,6 +24,7 @@ var sendgrid  = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.S
 
 
 exports.email = function(to, subject, body, next) {
+  console.log(to, subject, body);
   sendgrid.send({
     to:       to,
     from:     'admin@sngglr.com',
@@ -77,23 +78,23 @@ exports.resetEmail = function(token) {
   'http://sngglr.com/#/reset/' + token + '\n' +
   '\n' +
   'Enjoy :),\n' +
-  'Sngglr Team';
+  'Sngglr';
 };
 
 exports.onMatch = {};
-exports.onMatch.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Say Hai!'; };
+exports.onMatch.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Go say Hai!'; };
 exports.onMatch.email = function(name) {
   return 'Howdy\n\n' +
-'You just matched with ' + name + '! Say hai!\n\n' +
+'You just matched with ' + name + '! Go say hai!\n\n' +
 'Enjoy :),\n' +
-'Sngglr Team\nhttp://sngglr.com';
+'Sngglr\nhttp://sngglr.com';
 };
 
 exports.inviteEmail = function(email) {
   return '' +
   'Howdy ' + email + '!\n' +
-  '\n\n' +
-  'You have been invited to Sngglr by an unnamed user! Who? Sorry can\'t tell you that, we value user security and safety. But they\'re probably cute.\n'
+  '\n' +
+  'You have been invited to Sngglr by an unnamed user! Can\'t tell you who, but they\'re probably cute.\n' +
   '\n' +
   'What is Sngglr? It\'s a Michigan Tech and Finlandia only dating website (not hookup website).\n' +
   '\n' +
@@ -102,5 +103,5 @@ exports.inviteEmail = function(email) {
   'http://sngglr.com\n' +
   '\n' +
   'Made by MTU/FU students for MTU/FU students,\n' +
-  'Sngglr Team';
+  'Sngglr';
 };

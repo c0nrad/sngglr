@@ -8,7 +8,7 @@ var Invite = mongoose.model('Invite');
 
 var async = require('async');
 
-var notifications = require('notifications');
+var notifications = require('./notifications');
 
 router.post('/invite', function(req, res, next) {
   if (!req.user) {
@@ -16,22 +16,19 @@ router.post('/invite', function(req, res, next) {
   }
 
   var email = req.body.email;
+  console.log(email);
   async.auto({
     previousInvite: function(next) {
       Invite.findOne({email: req.body.email}, function(err, invite) {
-        if (invite === null) {
+        if (invite !== null) {
           return next('User has already been invited');
         }
         return next(err, invite);
       });
     },
 
-    invite: ['previousInvite', function(next, results) {
-      var previous = results.previousInvite;
+    invite: ['previousInvite', function(next) {
 
-      if (previous !== null || previous !== undefined) {
-        return next('User has already been invited.');
-      }
       var i = new Invite({
         email: email,
         from: req.user._id
@@ -41,13 +38,15 @@ router.post('/invite', function(req, res, next) {
     }],
 
     email: ['invite', function(next) {
-      notifications.email(email, 'Sngglr: You\'ve been invited!', notifications.inviteEmail, next);
+      notifications.email(email, 'Sngglr: You\'ve been invited!', notifications.inviteEmail(email), next);
     }]
   }, function(err) {
     if (err) {
       return next(err);
     }
 
-    res.json('okay');
+    res.json('User has been invited.');
   });
 });
+
+module.exports = router;
