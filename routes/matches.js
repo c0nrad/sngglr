@@ -32,11 +32,22 @@ router.get('/users/:user/matches', function(req, res, next) {
 	});
 });
 
-// FIX ME
 router.put('/users/:user/matches/:match/seen', function(req, res, next) {
-	Match.update({_id: req.params.match}, { $set: {'users.0.seen': true, 'users.1.seen': true}}, function(err) {
+	Match.findById(req.params.match, function(err, match) {
 		if (err) {
 			return next(err);
+		}
+
+		for (var i = 0; i < match.users.length; ++i) {
+			if (match.users[i].user.toString() === req.user._id.toString() && !match.users[i].seen) {
+
+				match.users[i].seen = true;
+				match.save(function(err) {
+					if (err) {
+						console.log(err);
+					}
+				});
+			}
 		}
 
 		Chat.update({match: req.params.match}, {$set: { 'to.seen': true}}, {multi: true}, function(err) {
