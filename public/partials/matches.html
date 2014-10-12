@@ -1,11 +1,10 @@
-<h1> Matches </h1>
-<table class="table">
+<table class="table" ng-show="matches.length">
   <tr>
     <th> Picture </th>
     <th> Name </th>
     <th> Match Type </th>
     <th> Match Date </th>
-    <th> Chats </th>
+    <th> Unseen chats </th>
   </tr>
   <tr ng-repeat="match in matches" ng-click="gotoMatch(match._id)" ng-class="{ success: !match.me.seen || match.chats.count }">
     <td> <img ng-src="{{match.pictures[0].url}}" style="width: 75px; height: 75px"> </td>
@@ -15,3 +14,8 @@
     <td> {{match.chats.count || 0 }} </td>
   </tr>
 </table>
+
+<div ng-show="!matches.length">
+  <div class="alert alert-danger"> No matches yet! </div>
+  <img style="width: 100%" src="/img/sad.png">
+</div>

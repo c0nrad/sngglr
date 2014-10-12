@@ -5,6 +5,7 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Invite = mongoose.model('Invite');
+var User = mongoose.model('User');
 
 var async = require('async');
 
@@ -14,9 +15,18 @@ router.post('/invite', function(req, res, next) {
   if (!req.user) {
     return next('You must be logged in!');
   }
+  console.log('email ft', req.user.email, req.body.email);
 
   var email = req.body.email;
-  console.log(email);
+
+  if (email.split('@').length !== 2) {
+    return next('not a valid email');
+  }
+
+  if (! (email.split('@')[1] === 'mtu.edu' || email.split('@')[1] === 'finlandia.edu')) {
+    return next('email must be either belong to mtu.edu or finlandia.edu');
+  }
+
   async.auto({
     previousInvite: function(next) {
       Invite.findOne({email: req.body.email}, function(err, invite) {
@@ -27,7 +37,16 @@ router.post('/invite', function(req, res, next) {
       });
     },
 
-    invite: ['previousInvite', function(next) {
+    previousUser: function(next) {
+      User.findOne({email: req.body.email}, function(err, user) {
+        if (user !== null) {
+          return next('User is already a member');
+        }
+        return next(err, user);
+      });
+    },
+
+    invite: ['previousInvite', 'previousUser', function(next) {
 
       var i = new Invite({
         email: email,

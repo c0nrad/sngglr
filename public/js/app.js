@@ -252,9 +252,11 @@ app.controller('PlayController', function(User, Play, $scope, $http, $rootScope)
     $http.post('/invite', {email: $scope.email})
     .success(function(a) {
       $scope.msg = a;
+      $scope.inviteErr = '';
     })
     .error(function(err) {
-      $scope.err = err;
+      $scope.msg = '';
+      $scope.inviteErr = err;
     });
   };
 

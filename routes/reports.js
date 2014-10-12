@@ -18,7 +18,7 @@ router.post('/report', function(req, res) {
   notifications.email(email, 'report', JSON.stringify(report, null, '\t'), function(err) {
     console.log(err);
   });
-  res.send('okay');
+  res.send('Thanks! <a href="http://sngglr.com"> Go Back </a> ');
 });
 
 module.exports = router;

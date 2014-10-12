@@ -4,11 +4,19 @@
 </div>
 
 <div ng-hide="other.name || err">
-  <p> Either you've already seen everyone! </p>
+
+  <div class="alert alert-danger"> You've already seen everyone! </div>
 
   <p> Invite Someone? </p>
-  <input class="form-control" type="text" ng-model="email">
+  <input class="form-control" type="text" ng-model="email" placeholder="gdmroz@mtu.edu">
   <button class="btn btn-primary" ng-click="invite()"> Invite! </button>
+  <div class="alert alert-success" ng-show="msg"> {{msg}} </div>
+  <div class="alert alert-danger" ng-show="inviteErr"> {{inviteErr}} </div>
+
+
+  <img style="width: 100%" src="/img/sad.png">
+
+
 </div>
 
 <div ng-show="other.name">

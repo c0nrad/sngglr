@@ -14,14 +14,10 @@ var secrets = {
   emailOn: process.env.emailOn
 };
 
-console.log(secrets)
-
 var client = new twilio.RestClient(secrets.twilioSid, secrets.twilioAuth);
 var number = secrets.twilioNumber;
 
-
 var sendgrid  = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
-
 
 exports.email = function(to, subject, body, next) {
   console.log(to, subject, body);
@@ -35,20 +31,7 @@ exports.email = function(to, subject, body, next) {
     console.log(json);
     next(err, json);
   });
-  // console.log('email', to, body);
-  //
-  // if (secrets.emailOn) {
-  //   var mailOptions = {
-  //     from: secrets.gmailEmail,
-  //     to: to,
-  //     subject: subject,
-  //     text: body,
-  //   };
-  //
-  //   transporter.sendMail(mailOptions, next);
-  // } else {
-  //   next();
-  // }
+
 };
 
 
@@ -80,7 +63,6 @@ exports.resetEmail = function(token) {
   'Enjoy :),\n' +
   'Sngglr';
 };
-
 exports.onMatch = {};
 exports.onMatch.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Go say Hai!'; };
 exports.onMatch.email = function(name) {
