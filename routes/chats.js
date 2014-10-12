@@ -18,7 +18,7 @@ router.get('/users/:user/matches/:match/chats', function(req, res, next) {
     if (match === null) {
       return next('not a valid match');
     }
-    
+
     Chat.find({match: match._id}, function(err, chats) {
       if (err) {
         return next(err);
@@ -30,13 +30,24 @@ router.get('/users/:user/matches/:match/chats', function(req, res, next) {
   });
 });
 
-router.put('/users/:user/matches/:match/chats/seen', function(req, res, next) {
-  Chat.update({match: req.params.match}, {$set: { 'to.seen': true}}, {multi: true}, function(err) {
+router.get('/users/:user/matches/:match/chats/unseen', function(req, res, next) {
+  Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
     if (err) {
       return next(err);
     }
 
-    res.send('okay');
+    if (match === null) {
+      return next('not a valid match');
+    }
+
+    Chat.find({ 'to.user': req.user._id, 'to.seen': false }).count().exec(function(err, count) {
+      if (err) {
+        return next(err);
+      }
+
+      res.json({count: count});
+    });
+
   });
 });
 
