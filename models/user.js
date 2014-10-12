@@ -36,17 +36,13 @@ var UserSchema = new Schema({
 
   phone: { type: String, defualt: '' },
   notifications: {
-    onLike: {
-      email: { type: Boolean, default: false },
-      sms: { type: Boolean, default: true }
-    },
     onMatch: {
       email: { type: Boolean, default: false },
       sms: {type: Boolean, default: true }
     },
     onChat: {
       email: { type: Boolean, default: false },
-      sms: {type: Boolean, default: true }
+      sms: {type: Boolean, default: false }
     }
   }
 });
