@@ -106,7 +106,7 @@ app.service('Match', function($resource) {
 });
 
 app.service('Chat', function($resource) {
-  return $resource('/api/users/:user/matches/:match/chats/:id', {id: '@_id', user: '@user', match: '@match'}, {seen: {url: '/api/users/:user/matches/:match/chats/seen', method: 'PUT'}});
+  return $resource('/api/users/:user/matches/:match/chats/:id', {id: '@_id', user: '@user', match: '@match'}, {unseen: {url: '/api/users/:user/matches/:match/chats/unseen', method: 'GET'}}, {seen: {url: '/api/users/:user/matches/:match/chats/seen', method: 'PUT'}});
 });
 
 app.controller('ConfirmationController', function($scope, $http, $stateParams, $state) {
@@ -159,16 +159,11 @@ app.controller('ForgotController', function(User, $scope, $http) {
 
 app.controller('MatchController', function(User, $rootScope, Match, Picture, Chat, $http, $scope, $state, $stateParams) {
   $scope.me = User.me(function(me) {
-    $scope.me.pictures = Picture.query({user: me._id})
+    $scope.me.pictures = Picture.query({user: me._id});
     $scope.match = Match.get({user: me._id, id: $stateParams.match}, function(match) {
       $scope.other = User.get({id: match.other.user});
       $scope.pictures = Picture.query({user: match.other.user});
-      $scope.chats = Chat.query({match: match._id, user: me._id}, function() {
-        $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/chats/seen')
-        .success(function() {
-          $rootScope.me = User.me();
-        });
-      });
+      $scope.chats = Chat.query({match: match._id, user: me._id});
       $http.put('/api/users/' + me._id + '/matches/' + $stateParams.match + '/seen')
       .success(function() {
         $rootScope.me = User.me();
@@ -181,7 +176,7 @@ app.controller('MatchController', function(User, $rootScope, Match, Picture, Cha
     c.$save(function() {
       $scope.chats = Chat.query({match: $stateParams.match, user: $scope.me._id});
     });
-    $scope.message = ""
+    $scope.message = '';
   };
 
   $scope.unmatch = function() {
@@ -204,13 +199,14 @@ app.controller('MatchController', function(User, $rootScope, Match, Picture, Cha
 
 });
 
-app.controller('MatchesController', function(User, Match, Picture, $scope, $state) {
+app.controller('MatchesController', function(User, Match, Picture, Chat, $scope, $state) {
   $scope.me = User.me(function(me) {
     Match.query({user: me._id}, function(matches) {
       for (var i = 0; i < matches.length; ++i) {
         var id = matches[i].other.user;
         matches[i].other = User.get({id: id });
         matches[i].pictures = Picture.query({user: id });
+        matches[i].chats = Chat.unseen({match: matches[i]._id, user: me._id});
       }
       $scope.matches = matches;
     });

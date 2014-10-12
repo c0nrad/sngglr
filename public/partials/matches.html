@@ -4,17 +4,15 @@
   <tr>
     <th> Picture </th>
     <th> Name </th>
-    <th> Match Date </th>
     <th> Match Type </th>
-    <th> Date Last Activity </th>
+    <th> Match Date </th>
     <th> Chats </th>
   </tr>
-  <tr ng-repeat="match in matches" ng-click="gotoMatch(match._id)" ng-class="{ success: !match.me.seen }">
+  <tr ng-repeat="match in matches" ng-click="gotoMatch(match._id)" ng-class="{ success: !match.me.seen || match.chats.count }">
     <td> <img ng-src="{{match.pictures[0].url}}" style="width: 75px; height: 75px"> </td>
     <td> {{match.other.name}} </td>
     <td> {{match.matchType}}
     <td> {{match.ts  | fromNow}} </td>
-    <td> {{match.other.lastActivity | fromNow}} </td>
-    <td> {{match.chats.length || 0 }} </td>
+    <td> {{match.chats.count || 0 }} </td>
   </tr>
 </table>
