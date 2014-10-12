@@ -33,7 +33,7 @@ router.get('/users/:user/matches', function(req, res, next) {
 });
 
 router.put('/users/:user/matches/:match/seen', function(req, res, next) {
-	Match.findById(req.params.match, function(err, match) {
+	Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
 		if (err) {
 			return next(err);
 		}
@@ -50,7 +50,7 @@ router.put('/users/:user/matches/:match/seen', function(req, res, next) {
 			}
 		}
 
-		Chat.update({match: req.params.match}, {$set: { 'to.seen': true}}, {multi: true}, function(err) {
+		Chat.update({match: req.params.match, 'to.user': req.user._id }, {$set: { 'to.seen': true}}, {multi: true}, function(err) {
 			if (err) {
 				return next(err);
 			}
