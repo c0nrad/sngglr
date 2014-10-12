@@ -132,18 +132,20 @@ router.get('/me', function(req, res, next) {
     async.auto({
       unseenMatches: function(next) {
         Match.find({'users' : {$elemMatch: {user: me._id}}}, function(err, matches) {
-          console.log(matches);
-          var count = 0;
-          for (var i = 0; i < matches.length; ++i) {
-            var match = matches[i];
+
+          async.map(matches, function(match, next) {
             for (var u = 0; u < match.users.length; ++u) {
                 var user = match.users[u];
                 if (user.user.equals(me._id) && !user.seen) {
-                  count += 1;
+                  return next(null, 1);
                 }
             }
-          }
-          next(null, count);
+
+            Chat.find({match: match._id, 'to.user': me._id, 'to.seen': false}).count().exec(next);
+          }, function (err, results) {
+            var count = _.reduce(results, function(a,b) {return a + b;}, 0);
+            next(err, count);
+          });
         });
       }
     }, function(err, results) {
