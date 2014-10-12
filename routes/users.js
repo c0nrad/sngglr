@@ -111,7 +111,7 @@ router.put('/:id', function (req, res, next) {
     next(401);
   }
 
-  var updatedFields = _.pick(req.body, 'gender', 'looking', 'bio', 'activity', 'notifications', 'phone');
+  var updatedFields = _.pick(req.body, 'gender', 'looking', 'standing', 'bio', 'activity', 'notifications', 'phone');
   _.extend(req.user, updatedFields);
 
   req.user.save(function(err, user) {
@@ -124,9 +124,38 @@ router.put('/:id', function (req, res, next) {
   });
 });
 
-router.get('/me', function(req, res) {
+router.get('/me', function(req, res, next) {
   if (req.user) {
-    res.json(req.user.toJSON() || null);
+
+    var me = req.user.toJSON();
+
+    async.auto({
+      unseenMatches: function(next) {
+        Match.find({'users' : {$elemMatch: {user: me._id}}}, function(err, matches) {
+          console.log(matches);
+          var count = 0;
+          for (var i = 0; i < matches.length; ++i) {
+            var match = matches[i];
+            for (var u = 0; u < match.users.length; ++u) {
+                var user = match.users[u];
+                if (user.user.equals(me._id) && !user.seen) {
+                  count += 1;
+                }
+            }
+          }
+          next(null, count);
+        });
+      }
+    }, function(err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      me.unseenMatches = results.unseenMatches;
+      res.json(me);
+    });
+
+
   } else {
     res.json({});
   }

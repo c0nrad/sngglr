@@ -9,6 +9,7 @@ var authTypes = ['github', 'twitter', 'facebook', 'google'];
 var genders = 'male female'.split(' ');
 var lookings = 'male female both'.split(' ');
 var activities = 'coffee snuggle sex'.split(' ');
+var standings = 'freshman sophomore junior senior senior+'.split(' ');
 
 /**
  * User Schema
@@ -21,6 +22,7 @@ var UserSchema = new Schema({
   looking: { type: String, default: 'both', enum: lookings },
   bio: { type: String, trim: true, default: 'I\'m awesome!' },
   activity: {type: String, default: 'snuggle', enum: activities},
+  standing: {type: String, default: 'freshman', enum: standings},
 
   confirmed: {type: Boolean, default: false},
 
@@ -51,7 +53,7 @@ var UserSchema = new Schema({
 
 UserSchema.set('toJSON', {
   transform: function(doc, ret) {
-    return _.pick(ret, '_id', 'name', 'email', 'role', 'gender', 'looking', 'bio', 'activity', 'lastLogin', 'lastActivity', 'firstLogin', 'dateAdded', 'phone', 'notifications', 'confirmed');
+    return _.pick(ret, '_id', 'name', 'email', 'role', 'gender', 'looking', 'standing', 'bio', 'activity', 'lastLogin', 'lastActivity', 'firstLogin', 'dateAdded', 'phone', 'notifications', 'confirmed');
   }
 });
 

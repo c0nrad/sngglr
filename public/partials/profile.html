@@ -39,21 +39,29 @@
 
     <textarea ng-blur="me.$update()" class="form-control" ng-model="me.bio"> </textarea>
 
-    <label> Activity:
-      <select class="form-control" ng-blur="me.$update()" ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
-    </label>
+    <div class="row">
+      <div class="col-md-3">
+        <label> Activity: </label>
+        <select class="form-control" ng-blur="me.$update()" ng-options="a for a in ['coffee', 'snuggle', 'sex']" ng-model="me.activity"> </select>
+      </div>
 
-    <label> Gender:
-      <select class="form-control" ng-blur="me.$update()" ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
-    </label>
+      <div class="col-md-3">
+        <label> Gender:</label>
+        <select class="form-control" ng-blur="me.$update()" ng-options="g for g in ['male', 'female']" ng-model="me.gender"> </select>
+      </div>
 
-    <label> Interested In:
-      <select class="form-control" ng-blur="me.$update()" ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
-    </label>
+      <div class="col-md-3">
+        <label> Interested In:</label>
+        <select class="form-control" ng-blur="me.$update()" ng-options="i for i in ['male', 'female', 'both']" ng-model="me.looking"> </select>
+      </div>
+
+      <div class="col-md-3">
+        <label>Class:</label>
+        <select class="form-control" ng-blur="me.$update()" ng-options="s for s in ['freshman', 'sophomore', 'junior', 'senior', 'senior+']" ng-model="me.standing"></select>
+      </div>
+    </div>
 
     <br />
-<br />
-
     <h4> Private Info </h4>
 
     <label> Phone Number:
@@ -79,5 +87,7 @@
     </table>
   </div>
 </div>
+
+<button class="btn btn-primary pull-right"> Save </button>
 
 <script src="/js/s3_upload.js"> </script>
