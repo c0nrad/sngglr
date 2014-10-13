@@ -148,12 +148,11 @@ app.controller('ResetController', function($scope, $http, $stateParams, $state) 
 
 app.controller('ForgotController', function(User, $scope, $http) {
   $scope.reset = function() {
-    console.log('email');
     var email = $scope.email;
 
     $http.post('/api/reset', {email: email})
     .success(function() {
-      console.log(arguments, 'success');
+      $scope.msg = 'Please check your email to reset password.';
     })
     .error(function(err) {
       $scope.err = err;
