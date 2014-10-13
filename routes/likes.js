@@ -90,14 +90,14 @@ router.post('/like', function(req, res, next) {
       async.auto({
         sms: function(next) {
           if (other.notifications.onMatch.sms) {
-            return notifications.sms(other.phone, notifications.onMatch.sms(other.name), next);
+            return notifications.sms(other.phone, notifications.onMatch.sms(req.user.name), next);
           }
           next();
         },
 
         email: function(next) {
           if (other.notifications.onMatch.email) {
-            return notifications.email(other.email, 'Sngglr: New Match!', notifications.onMatch.email(other.name), next);
+            return notifications.email(other.email, 'Sngglr: New Match!', notifications.onMatch.email(req.user.name), next);
           }
           next();
         }
