@@ -56,6 +56,10 @@ router.get('/users/:user/matches/:match/chats/unseen', function(req, res, next) 
 
 router.post('/users/:user/matches/:match/chats', function(req, res, next) {
 
+  if (!req.body.message || req.body.message.trim() === '') {
+    return next('Not a valid message');
+  }
+
   async.auto({
     match: function(next) {
       Match.findById(req.params.match, function(err, match) {
