@@ -147,12 +147,19 @@ router.get('/me', function(req, res, next) {
             next(err, count);
           });
         });
+      },
+
+      pictures: function(next) {
+        Picture.find({user: me._id}).sort({z: -1}).limit(1).exec(next);
       }
     }, function(err, results) {
       if (err) {
         return next(err);
       }
 
+      if (results.pictures.length) {
+        me.picture = results.pictures[0].url;
+      }
       me.unseenMatches = results.unseenMatches;
       res.json(me);
     });

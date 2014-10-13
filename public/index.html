@@ -31,11 +31,27 @@
 
         <span ng-show="me.name" class="pull-right">
           <ul class="nav nav-pills">
-            <li> <a ui-sref="profile">Profile</a> </li>
+            <!-- <li> <a ui-sref="profile">Profile</a> </li> -->
             <li> <a ui-sref="play">Play</a> </li>
             <li> <a ui-sref="matches">Matches<span ng-show="me.unseenMatches" class="badge">{{me.unseenMatches}}</span></a> </li>
-            <li> <a ng-click="logout()" href="#">Logout</a> </li>
+            <!-- <li> <a ng-click="logout()" href="#">Logout</a> </li> -->
+
+
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  {{me.name}} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li> <a ui-sref="profile">Profile</a> </li>
+                  <li> <a ng-click="logout()" href="#">Logout</a> </li>
+                </ul>
+                </li>
+
+            <!-- <li> <a href="abc"><img class="img-circle" style="width: 35px; height: 35px" ng-src="{{me.picture}}"> </a> </li> -->
+
+
           </ul>
+
         </span>
       </div>
 
