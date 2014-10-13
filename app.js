@@ -59,6 +59,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next) {
+  if (req.user) {
+    User.update({_id: req.user._id}, {$set: {lastActivity: new Date() }}, function(err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+  next();
+});
+
 // Load routes
 var api = require('./routes/api');
 
