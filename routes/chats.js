@@ -40,7 +40,7 @@ router.get('/users/:user/matches/:match/chats/unseen', function(req, res, next) 
       return next('not a valid match');
     }
 
-    Chat.find({ 'to.user': req.user._id, 'to.seen': false }).count().exec(function(err, count) {
+    Chat.find({ 'to.user': req.user._id, 'to.seen': false, match: req.params.match }).count().exec(function(err, count) {
       if (err) {
         return next(err);
       }
