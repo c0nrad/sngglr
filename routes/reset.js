@@ -37,6 +37,10 @@ router.post('/reset', function(req, res, next) {
     }],
 
     sendEmail: ['reset', 'user', function(next, results) {
+
+      if (!results.reset) {
+        return next(null);
+      }
       var reset = results.reset[0];
       var user = results.user;
       notifications.email(user.email, 'Sngglr: Reset Password', notifications.resetEmail(reset.token), next);
@@ -51,7 +55,6 @@ router.post('/reset', function(req, res, next) {
 });
 
 router.post('/reset/:token', function(req, res, next) {
-  console.log('wtf');
   if (req.body.password === undefined || req.body.password.length === 0) {
     return next('Not a valid password');
   }
