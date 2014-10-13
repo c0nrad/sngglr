@@ -3,11 +3,14 @@
 var express = require('express');
 var router = express.Router();
 
+var notifications = require('./notifications');
+
 var async = require('async');
 
 var mongoose = require('mongoose');
 var Match = mongoose.model('Match');
 var Chat = mongoose.model('Chat');
+var User = mongoose.model('User');
 
 router.get('/users/:user/matches/:match/chats', function(req, res, next) {
   Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
@@ -95,6 +98,33 @@ router.post('/users/:user/matches/:match/chats', function(req, res, next) {
       });
 
       c.save(next);
+    }],
+
+    other: ['match', function(next, results) {
+      var match = results.match;
+      User.findById(match.other.user, next);
+    }],
+
+    notifications: ['other', 'chat', function(next, results) {
+      var other = results.other;
+      console.log('other', other);
+
+      if (other.notifications.onChat.sms) {
+        notifications.sms(other.phone, notifications.onChat.sms(req.user.name), function(err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+
+      if (other.notifications.onChat.email) {
+        notifications.email(other.email, 'Sngglr: New Chat', notifications.onChat.email(req.user.name), function(err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+      next();
     }]
 
   }, function(err, results) {

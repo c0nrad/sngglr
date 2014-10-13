@@ -72,6 +72,14 @@ exports.onMatch.email = function(name) {
 'Sngglr\nhttp://sngglr.com';
 };
 
+exports.onChat = {};
+exports.onChat.sms = function(name) { return name + ' just sent you a message on Sngglr!'; };
+exports.onChat.email = function(name) { return 'Howdy\n\n' +
+name + ' just sent you a message on Sngglr!\n\n' +
+'Enjoy :),\n' +
+'Sngglr';
+};
+
 exports.inviteEmail = function(email) {
   return '' +
   'Howdy ' + email + '!\n' +
