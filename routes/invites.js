@@ -23,7 +23,7 @@ router.post('/invite', function(req, res, next) {
     return next('not a valid email');
   }
 
-  if (! (email.split('@')[1] === 'mtu.edu' || email.split('@')[1] === 'finlandia.edu')) {
+  if (! (email.split('@')[1] === 'mtu.edu' || email.split('@')[1] === 'finlandia.edu' || email.split('@')[1] === 'fu.edu')) {
     return next('email must be either belong to mtu.edu or finlandia.edu');
   }
 
