@@ -229,6 +229,7 @@ app.controller('PlayController', function(User, Play, $scope, $http, $rootScope)
     $scope.me.$like({id: $scope.me._id, likeType: likeType, other: other}, function() {
       $rootScope.me = User.me();
       $scope.other = Play.get();
+      $scope.imgIndex = 0;
       $scope.err = '';
     }, function(response) { console.log(response); $scope.err = response.data; });
   };
