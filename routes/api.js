@@ -18,6 +18,7 @@ var confirmationRoutes = require('./confirmations');
 var reportRoutes = require('./reports');
 var inviteRoutes = require('./invites');
 var s3 = require('./s3');
+var statRoutes = require('./stats');
 
 router.use('/api/users?', userRoutes);
 router.use('/api/users?/:person', likeRoutes);
@@ -30,6 +31,7 @@ router.use('/api', playRoutes);
 router.use('/api', sessionRoutes);
 router.use('/api', resetRoutes);
 router.use('/api', confirmationRoutes);
+router.use('/api', statRoutes);
 
 router.use('/', inviteRoutes);
 router.use('/', reportRoutes);
