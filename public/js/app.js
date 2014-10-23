@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('sngglr', ['ui.router', 'ngResource', 'angularFileUpload', 'angles']);
+var app = angular.module('sngglr', ['ui.router', 'ngResource', 'angularFileUpload', 'googlechart']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -128,42 +128,66 @@ app.controller('StatsController', function($scope, Stats) {
   $scope.stats = Stats.get(function(stats) {
     console.log(arguments);
 
-    $scope.mtuCountData = [{
-      value: stats.maleCount.mtu,
-      color: '#428bca',
-      label: 'MTU Males'
-    },
-    {
-      value : stats.femaleCount.mtu,
-      color : '#d9534f',
-      label: 'MTU Female'
-    }];
+    $scope.mtuCountChartObject = {
+      data: {
+        'cols': [
+          {id: 't', label: 'Gender Type', type: 'string'},
+          {id: 's', label: 'Count', type: 'number'}
+        ],
+        'rows': [
+          { c: [ { v: 'Male'}, {v: stats.maleCount.mtu}, ] },
+          {c: [ {v: 'Female'}, {v: stats.femaleCount.mtu}]}
+        ]
+      },
+      type: 'PieChart',
+      options: {
+        'pieSliceText': 'value',
+        chartArea:{left:0,top:0,width:'100%',height:'100%'}
 
-    $scope.fuCountData = [{
-      value: stats.maleCount.fu,
-      color: '#428bca',
-      label: 'FU Male'
-    }, {
-      value: stats.femaleCount.fu,
-      color: '#d9534f',
-      label: 'FU Female'
-    }];
+      }
+    };
+
+    $scope.fuCountChartObject = {
+      data: {
+        'cols': [
+          {id: 't', label: 'Gender Type', type: 'string'},
+          {id: 's', label: 'Count', type: 'number'}
+        ],
+        'rows': [
+          { c: [ { v: 'Male'}, {v: stats.maleCount.fu}, ] },
+          {c: [ {v: 'Female'}, {v: stats.femaleCount.fu}]}
+        ]
+      },
+      type: 'PieChart',
+      options: {
+        'pieSliceText': 'value',
+        chartArea:{left:0,top:0,width:'100%',height:'100%'}
+      }
+    };
 
 
     var joinDateLabels = _.map(stats.joinDates, function(d) { return d; });
     var incrementingCount = [];
-    for (var i = 1; i <= joinDateLabels.length; ++i) {
-      incrementingCount.push(i);
+
+    var joinDateRows = [];
+    for (var i = 1; i <= stats.joinDates.length; ++i) {
+      var out = { c: [ {v: new Date(stats.joinDates[i]) }, {v:i} ] };
+      joinDateRows.push(out);
     }
-    $scope.joinDateData = {
-      labels: joinDateLabels,
-      datasets: [
-        { data: incrementingCount,
-          label: 'Join Dates'
-          }
-      ]
+
+
+    $scope.joinDateChartObject = {
+      data: {"cols": [
+          {id: "t", label: "Date", type: "date"},
+          {id: "s", label: "Number of Members", type: "number"}
+        ], "rows": joinDateRows
+      },
+      type: 'LineChart',
+      options: {
+          'title': 'New User Growth',
+          'legend': 'none',
+      }
     };
-    console.log($scope.joinDateData);
 
   });
 });
