@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('sngglr', ['ui.router', 'ngResource', 'angularFileUpload']);
+var app = angular.module('sngglr', ['ui.router', 'ngResource', 'angularFileUpload', 'angles']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -91,6 +91,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('contact', {
       url: '/contact',
       templateUrl: 'partials/contact.html'
+    })
+
+    .state('stats', {
+      url: '/stats',
+      templateUrl: 'partials/stats.html',
+      controller: 'StatsController'
     });
  });
 
@@ -112,6 +118,54 @@ app.service('Match', function($resource) {
 
 app.service('Chat', function($resource) {
   return $resource('/api/users/:user/matches/:match/chats/:id', {id: '@_id', user: '@user', match: '@match'}, {unseen: {url: '/api/users/:user/matches/:match/chats/unseen', method: 'GET'}}, {seen: {url: '/api/users/:user/matches/:match/chats/seen', method: 'PUT'}});
+});
+
+app.service('Stats', function($resource){
+  return $resource('/api/stats');
+});
+
+app.controller('StatsController', function($scope, Stats) {
+  $scope.stats = Stats.get(function(stats) {
+    console.log(arguments);
+
+    $scope.mtuCountData = [{
+      value: stats.maleCount.mtu,
+      color: '#428bca',
+      label: 'MTU Males'
+    },
+    {
+      value : stats.femaleCount.mtu,
+      color : '#d9534f',
+      label: 'MTU Female'
+    }];
+
+    $scope.fuCountData = [{
+      value: stats.maleCount.fu,
+      color: '#428bca',
+      label: 'FU Male'
+    }, {
+      value: stats.femaleCount.fu,
+      color: '#d9534f',
+      label: 'FU Female'
+    }];
+
+
+    var joinDateLabels = _.map(stats.joinDates, function(d) { return d; });
+    var incrementingCount = [];
+    for (var i = 1; i <= joinDateLabels.length; ++i) {
+      incrementingCount.push(i);
+    }
+    $scope.joinDateData = {
+      labels: joinDateLabels,
+      datasets: [
+        { data: incrementingCount,
+          label: 'Join Dates'
+          }
+      ]
+    };
+    console.log($scope.joinDateData);
+
+  });
 });
 
 app.controller('ConfirmationController', function($scope, $http, $stateParams, $state) {

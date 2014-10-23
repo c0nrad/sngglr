@@ -78,10 +78,6 @@ router.get('/stats', function(req, res, next) {
 
         maybe: function(next) {
           Match.find({matchType: 'maybe'}).count().exec(next);
-        },
-
-        no: function(next) {
-          Match.find({matchType: 'no'}).count().exec(next);
         }
       }, function(err, results) {
         next(err, results);
