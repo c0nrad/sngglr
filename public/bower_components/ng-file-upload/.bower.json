@@ -15,7 +15,6 @@
     "commit": "34720563358f836f828f397bca487db99d23737e"
   },
   "_source": "git://github.com/danialfarid/angular-file-upload-bower.git",
-  "_target": "~1.6.12",
-  "_originalSource": "ng-file-upload",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "ng-file-upload"
 }
