@@ -233,7 +233,6 @@ app.controller('StatsController', function($scope, Stats) {
         'rows': [
           { c: [ { v: 'Yes'}, {v: stats.matches.yes}, ] },
           { c: [ { v: 'Maybe'}, {v: stats.matches.maybe}, ] },
-          { c: [ {v: 'No'}, {v: stats.count * stats.count - stats.matches.yes - stats.matches.maybe}]}
         ]
       },
       type: 'PieChart',
