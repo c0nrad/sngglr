@@ -93,6 +93,16 @@ router.get('/stats', function(req, res, next) {
       });
     },
 
+    lastActivity: function(next) {
+      User.find({confirmed: true}, {_id: 0, lastActivity: 1}).sort({lastActivity: 1}).exec(function(err, results) {
+        if (err) {
+          return next(err);
+        }
+
+        return next(err, _.pluck(results, 'lastActivity'));
+      });
+    },
+
     invites: function(next) {
       async.auto({
         sent: function(next) {

@@ -166,15 +166,11 @@ app.controller('StatsController', function($scope, Stats) {
     };
 
 
-    var joinDateLabels = _.map(stats.joinDates, function(d) { return d; });
-    var incrementingCount = [];
-
     var joinDateRows = [];
     for (var i = 1; i <= stats.joinDates.length; ++i) {
       var out = { c: [ {v: new Date(stats.joinDates[i]) }, {v:i} ] };
       joinDateRows.push(out);
     }
-
 
     $scope.joinDateChartObject = {
       data: {"cols": [
@@ -188,6 +184,28 @@ app.controller('StatsController', function($scope, Stats) {
           'legend': 'none',
       }
     };
+
+
+    var lastActivityRows = [];
+    for (i = 1; i <= stats.lastActivity.length; ++i) {
+      var laOut = { c: [ {v: new Date(stats.lastActivity[i])}, {v: i} ] };
+      lastActivityRows.push(laOut);
+    }
+
+    $scope.lastActivityChartObject = {
+      data: {"cols": [
+          {id: "t", label: "Date Last Activity", type: "date"},
+          {id: "s", label: "Member Number", type: "number"}
+        ], "rows": lastActivityRows
+      },
+      type: 'LineChart',
+      options: {
+          'title': 'Date of last activity',
+          'legend': 'none',
+      }
+    };
+
+
 
   });
 });
