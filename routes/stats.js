@@ -126,7 +126,6 @@ router.get('/stats', function(req, res, next) {
 
     likeGraph: function(next) {
 
-
       Like.find({}).exec(function(err, likes) {
         var out = {};
         var conversions = {};
@@ -156,7 +155,8 @@ router.get('/stats', function(req, res, next) {
           if (!out[to]) {
             out[to] = { yes: [], maybe: [], no: [] };
           }
-          out[from][likeType].push(to);
+
+          out[from][likeType] = _.union(out[from][likeType], [to]);
         }
         next(err, out);
       } );
