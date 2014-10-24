@@ -30,5 +30,8 @@
     "twilio": "^1.7.0",
     "underscore": "*",
     "winston": "*"
+  },
+  "dev-dependencies": {
+    "grunt": "*"
   }
 }

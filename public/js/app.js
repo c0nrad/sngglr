@@ -126,8 +126,6 @@ app.service('Stats', function($resource){
 
 app.controller('StatsController', function($scope, Stats) {
   $scope.stats = Stats.get(function(stats) {
-    console.log(arguments);
-
     $scope.mtuCountChartObject = {
       data: {
         'cols': [
@@ -143,7 +141,6 @@ app.controller('StatsController', function($scope, Stats) {
       options: {
         'pieSliceText': 'value',
         chartArea:{left:0,top:0,width:'100%',height:'100%'}
-
       }
     };
 
@@ -241,6 +238,60 @@ app.controller('StatsController', function($scope, Stats) {
         chartArea:{left:0,top:0,width:'100%',height:'100%'}
       }
     };
+
+
+    var likeNodes = [];
+    var likeEdges = [];
+
+    for (var u in stats.likeGraph) {
+      var node = {
+        'id': 'n' + u.toString(),
+        label: '',
+        size: 1,
+        x: Math.random(),
+        y: Math.random()
+      };
+      likeNodes.push(node);
+
+      var user = stats.likeGraph[u];
+      var link = {};
+      console.log("U", user);
+      for (var yes = 0; yes < user.yes.length; ++yes) {
+        link = {
+          source: node.id,
+          target: 'n' + user.yes[yes].toString(),
+          id: 'e' + node.id.toString() + 'yes' + user.yes[yes].toString(),
+          color: '#428bca'
+        };
+        likeEdges.push(link);
+      }
+      for (var maybe = 0; maybe < user.maybe.length; ++maybe) {
+        link = {
+          source: node.id,
+          target: 'n' + user.maybe[maybe].toString(),
+          id: 'e' + node.id.toString() + 'maybe' + user.maybe[maybe].toString(),
+          color: '#f0ad4e'
+        };
+        likeEdges.push(link);
+      }
+      for (var no = 0; no < user.no.length; ++no) {
+        link = {
+          source: node.id,
+          target: 'n' + user.no[no].toString(),
+          id: 'e' + node.id.toString() + 'no' + user.no[no].toString(),
+          color: '#d9534f'
+        };
+        likeEdges.push(link);
+      }
+    }
+
+    console.log(likeNodes, likeEdges);
+
+    $scope.likeGraph = {
+      'nodes': likeNodes,
+      'edges': likeEdges
+    };
+
 
   });
 });

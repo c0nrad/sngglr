@@ -122,6 +122,44 @@ router.get('/stats', function(req, res, next) {
       }, function(err, results) {
         next(err, results);
       });
+    },
+
+    likeGraph: function(next) {
+
+
+      Like.find({}).exec(function(err, likes) {
+        var out = {};
+        var conversions = {};
+        var count = 1;
+
+        for (var i = 0; i < likes.length; ++i) {
+          var like = likes[i];
+
+          // convert
+          if (!conversions[like.likee.user]) {
+            conversions[like.likee.user] = count;
+            count += 1;
+          }
+
+          if (!conversions[like.liker.user]) {
+            conversions[like.liker.user] = count;
+            count += 1;
+          }
+
+          var to = conversions[like.likee.user];
+          var from = conversions[like.liker.user];
+          var likeType = like.likeType;
+
+          if (!out[from]) {
+            out[from] = { yes: [], maybe: [], no: [] };
+          }
+          if (!out[to]) {
+            out[to] = { yes: [], maybe: [], no: [] };
+          }
+          out[from][likeType].push(to);
+        }
+        next(err, out);
+      } );
     }
 
   }, function(err, results) {

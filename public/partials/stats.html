@@ -1,32 +1,5 @@
-<h1> DEM STATS </h1>
 
-
-<style>
-.blue-circle {
-	width: 100px;
-	height: 100px;
-	border-radius: 50px;
-	font-size: 20px;
-	color: #fff;
-	line-height: 100px;
-	text-align: center;
-	background: #428bca
- }
-
-.red-circle {
-   width: 100px;
-   height: 100px;
-   border-radius: 50px;
-   font-size: 20px;
-   color: #fff;
-   line-height: 100px;
-   text-align: center;
-     background: #d9534f
-  }
-
-
-</style>
-
+{{stats}}
 <div style="text-align: center">
   <h1> Total Confirmed Users {{stats.count}} </h1>
 </div>
@@ -73,4 +46,6 @@
 	</tr>
 </table>
 
-<script src="/bower_components/chartjs/Chart.js"> </script>
+<div style="border: 1px solid">
+<sigmajs graph=likeGraph> </div>
+</div>
