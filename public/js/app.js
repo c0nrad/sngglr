@@ -205,7 +205,43 @@ app.controller('StatsController', function($scope, Stats) {
       }
     };
 
+    $scope.likeTypeChartObject = {
+      data: {
+        'cols': [
+          {id: 't', label: 'Gender Type', type: 'string'},
+          {id: 's', label: 'Count', type: 'number'}
+        ],
+        'rows': [
+          { c: [ { v: 'Yes'}, {v: stats.likes.yes}, ] },
+          { c: [ { v: 'Maybe'}, {v: stats.likes.maybe}, ] },
+          { c: [ {v: 'No'}, {v: stats.likes.no}]}
+        ]
+      },
+      type: 'PieChart',
+      options: {
+        'pieSliceText': 'value',
+        chartArea:{left:0,top:0,width:'100%',height:'100%'}
+      }
+    };
 
+    $scope.matchTypeChartObject = {
+      data: {
+        'cols': [
+          {id: 't', label: 'Gender Type', type: 'string'},
+          {id: 's', label: 'Count', type: 'number'}
+        ],
+        'rows': [
+          { c: [ { v: 'Yes'}, {v: stats.matches.yes}, ] },
+          { c: [ { v: 'Maybe'}, {v: stats.matches.maybe}, ] },
+          { c: [ {v: 'No'}, {v: stats.count * stats.count - stats.matches.yes - stats.matches.maybe}]}
+        ]
+      },
+      type: 'PieChart',
+      options: {
+        'pieSliceText': 'value',
+        chartArea:{left:0,top:0,width:'100%',height:'100%'}
+      }
+    };
 
   });
 });

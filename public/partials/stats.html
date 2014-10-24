@@ -1,6 +1,5 @@
 <h1> DEM STATS </h1>
 
-{{stats}}
 
 <style>
 .blue-circle {
@@ -28,7 +27,6 @@
 
 </style>
 
-
 <div style="text-align: center">
   <h1> Total Confirmed Users {{stats.count}} </h1>
 </div>
@@ -47,5 +45,12 @@
 <div google-chart chart="joinDateChartObject" style="width: 100%"> </div>
 
 <div google-chart chart="lastActivityChartObject" style="width: 100%"> </div>
+
+<h3> Likes </h3>
+<div google-chart chart="likeTypeChartObject" style="width: 100%"></div>
+
+<h3> Matches </h3>
+<div google-chart chart="matchTypeChartObject" style="width: 100%"></div>
+
 
 <script src="/bower_components/chartjs/Chart.js"> </script>
