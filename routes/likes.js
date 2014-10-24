@@ -87,6 +87,8 @@ router.post('/like', function(req, res, next) {
         return next(null);
       }
 
+      var match = results.match;
+
       async.auto({
         sms: function(next) {
           if (other.notifications.onMatch.sms) {
@@ -97,7 +99,7 @@ router.post('/like', function(req, res, next) {
 
         email: function(next) {
           if (other.notifications.onMatch.email) {
-            return notifications.email(other.email, 'Sngglr: New Match!', notifications.onMatch.email(req.user.name), next);
+            return notifications.email(other.email, 'Sngglr: New Match!', notifications.onMatch.email(req.user.name, match._id), next);
           }
           next();
         }

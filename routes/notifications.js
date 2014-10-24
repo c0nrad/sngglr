@@ -64,18 +64,20 @@ exports.resetEmail = function(token) {
   'Sngglr';
 };
 exports.onMatch = {};
-exports.onMatch.sms = function(name) { return 'You just matched with ' + name + ' on Sngglr! Go say Hai!'; };
-exports.onMatch.email = function(name) {
+exports.onMatch.sms = function(name, match) { return 'You just matched with ' + name + ' on Sngglr! Go say Hai! http://sngglr.com/#/matches/' + match; };
+exports.onMatch.email = function(name, match) {
   return 'Howdy\n\n' +
 'You just matched with ' + name + '! Go say hai!\n\n' +
+'http://sngglr.com/#/matches/' + match + '\n\n' +
 'Enjoy :),\n' +
 'Sngglr\nhttp://sngglr.com';
 };
 
 exports.onChat = {};
-exports.onChat.sms = function(name) { return name + ' just sent you a message on Sngglr!'; };
-exports.onChat.email = function(name) { return 'Howdy\n\n' +
+exports.onChat.sms = function(name, match) { return name + ' just sent you a message on Sngglr! http://sngglr.com/#/matches/' + match; };
+exports.onChat.email = function(name, match) { return 'Howdy\n\n' +
 name + ' just sent you a message on Sngglr!\n\n' +
+'http://sngglr.com/#/matches/' + match + '\n\n' +
 'Enjoy :),\n' +
 'Sngglr';
 };

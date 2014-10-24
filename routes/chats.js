@@ -109,12 +109,14 @@ router.post('/users/:user/matches/:match/chats', function(req, res, next) {
       User.findById(match.other.user, next);
     }],
 
-    notifications: ['other', 'chat', function(next, results) {
+    notifications: ['other', 'chat', 'match', function(next, results) {
       var other = results.other;
       console.log('other', other);
 
+      var match = results.match;
+
       if (other.notifications.onChat.sms) {
-        notifications.sms(other.phone, notifications.onChat.sms(req.user.name), function(err) {
+        notifications.sms(other.phone, notifications.onChat.sms(req.user.name, match._id), function(err) {
           if (err) {
             console.log(err);
           }
@@ -122,7 +124,7 @@ router.post('/users/:user/matches/:match/chats', function(req, res, next) {
       }
 
       if (other.notifications.onChat.email) {
-        notifications.email(other.email, 'Sngglr: New Chat', notifications.onChat.email(req.user.name), function(err) {
+        notifications.email(other.email, 'Sngglr: New Chat', notifications.onChat.email(req.user.name, match._id), function(err) {
           if (err) {
             console.log(err);
           }
