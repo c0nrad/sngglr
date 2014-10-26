@@ -126,7 +126,7 @@ router.get('/stats', function(req, res, next) {
 
     likeGraph: function(next) {
 
-      Like.find({}).exec(function(err, likes) {
+      Like.find({likeType: {$in: ['yes', 'maybe']}}).exec(function(err, likes) {
         var out = {};
         var conversions = {};
         var count = 1;
