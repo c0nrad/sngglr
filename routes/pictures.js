@@ -85,17 +85,18 @@ router.put('/users?/:user/pictures/:id/first', function(req, res, next) {
   if (!req.user) {
     return next(401);
   }
-
   async.auto({
 
     maxIndex: function(next) {
-      Picture.find({user: req.user._id}, 'z').sort({z:1}).limit(1).exec(next);
+      Picture.find({user: req.user._id}, 'z').sort({z:-1}).limit(1).exec(next);
     },
 
     first: ['maxIndex', function(next, results) {
-      console.log(results);
-      var z = results.maxIndex[0].z || 1;
-      Picture.findByIdAndUpdate(req.params.id, {z: z+2}).exec(next);
+      var z = 1;
+      if (results.maxIndex.length) {
+        z = results.maxIndex[0].z;
+      }
+      Picture.update({_id: req.params.id, user: req.user._id} , {$set: {z: z+2}}).exec(next);
     }]
   }, function(err, results) {
     if (err) {
