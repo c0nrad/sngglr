@@ -504,20 +504,6 @@ app.controller('ProfileController', function(User, Picture, $scope, $upload) {
     $scope.imgIndex %= $scope.pictures.length;
   };
 
-  $scope.onFileSelect = function($files) {
-    for (var i = 0; i < $files.length; i++) {
-      var file = $files[i];
-      $scope.upload = $upload.upload({
-        url: '/api/users/' + $scope.me._id + '/pictures/upload',
-        method: 'POST',
-        file: file, // or list of files ($files) for html5 only
-      }).success(function(data, status, headers, config) {
-        console.log(data);
-        $scope.addPicture(data);
-      });
-      //.error(...)
-    }
-  };
 });
 
 

@@ -7,20 +7,6 @@ var mongoose = require('mongoose');
 var Picture = mongoose.model('Picture');
 var async = require('async');
 
-var fs = require('fs');
-var crypto = require('crypto');
-
-router.post('/users?/:user/pictures/upload', function (req, res) {
-  var file = req.files.file;
-
-  crypto.randomBytes(48, function(ex, buf) {
-    var name = __dirname + '/../public/img/pictures/' + buf.toString('hex');
-
-    fs.renameSync(file.path, name);
-    res.send('/img/pictures/' + buf.toString('hex'));
-  });
-});
-
 router.post('/users?/:user/pictures', function (req, res, next) {
   if (!req.user) {
     return next(401);
