@@ -34,8 +34,6 @@ exports.email = function(to, subject, body, next) {
 
 };
 
-
-
 exports.sms = function(to, body, next) {
   console.log('sms', to, body);
 

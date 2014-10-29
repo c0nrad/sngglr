@@ -13,6 +13,10 @@ var Chat = mongoose.model('Chat');
 var User = mongoose.model('User');
 
 router.get('/users/:user/matches/:match/chats', function(req, res, next) {
+  if (!req.user) {
+    return next(401);
+  }
+
   Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
     if (err) {
       return next(err);
@@ -34,6 +38,10 @@ router.get('/users/:user/matches/:match/chats', function(req, res, next) {
 });
 
 router.get('/users/:user/matches/:match/chats/unseen', function(req, res, next) {
+  if (!req.user) {
+    return next(401);
+  }
+
   Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
     if (err) {
       return next(err);
@@ -55,6 +63,9 @@ router.get('/users/:user/matches/:match/chats/unseen', function(req, res, next) 
 });
 
 router.post('/users/:user/matches/:match/chats', function(req, res, next) {
+  if (!req.user) {
+    return next(401);
+  }
 
   if (!req.body.message || req.body.message.trim() === '') {
     return next('Not a valid message');
@@ -62,9 +73,13 @@ router.post('/users/:user/matches/:match/chats', function(req, res, next) {
 
   async.auto({
     match: function(next) {
-      Match.findById(req.params.match, function(err, match) {
+      Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
         if (err) {
           return next(err);
+        }
+
+        if (match === null) {
+          return next('not a valid match');
         }
 
         match = match.toJSON();

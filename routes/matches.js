@@ -11,6 +11,11 @@ var Chat = mongoose.model('Chat');
 var Like = mongoose.model('Like');
 
 router.get('/users/:user/matches', function(req, res, next) {
+	if (!req.user) {
+		return next(401);
+	}
+
+
 	Match.find({'users' : {$elemMatch: {user: req.user._id}}}, function(err, matches) {
   	if (err) {
 			return next(err);
@@ -33,6 +38,10 @@ router.get('/users/:user/matches', function(req, res, next) {
 });
 
 router.put('/users/:user/matches/:match/seen', function(req, res, next) {
+	if (!req.user) {
+		return next(401);
+	}
+
 	Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
 		if (err) {
 			return next(err);
@@ -62,6 +71,10 @@ router.put('/users/:user/matches/:match/seen', function(req, res, next) {
 });
 
 router.get('/users/:user/matches/:match', function(req, res, next) {
+	if (!req.user) {
+		return next(401);
+	}
+
 	Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
 		if (err) {
 			return next(err);
@@ -87,10 +100,13 @@ router.get('/users/:user/matches/:match', function(req, res, next) {
 
 
 router.delete('/users/:user/matches/:match', function(req, res, next) {
+	if (!req.user) {
+		return next(401);
+	}
 
 	async.auto({
 		match: function(next) {
-			Match.findById(req.params.match, function(err, match) {
+			Match.findOne({'users' : {$elemMatch: {user: req.user._id}}, _id: req.params.match}, function(err, match) {
 				if (err) {
 					return next(err);
 				}

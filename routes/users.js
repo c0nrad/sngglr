@@ -108,7 +108,7 @@ router.post('/', function (req, res, next) {
 
 router.put('/:id', function (req, res, next) {
   if (!req.user) {
-    next(401);
+    return next(401);
   }
 
   var updatedFields = _.pick(req.body, 'gender', 'looking', 'standing', 'bio', 'activity', 'notifications', 'phone');
@@ -125,49 +125,46 @@ router.put('/:id', function (req, res, next) {
 });
 
 router.get('/me', function(req, res, next) {
-  if (req.user) {
-
-    var me = req.user.toJSON();
-
-    async.auto({
-      unseenMatches: function(next) {
-        Match.find({'users' : {$elemMatch: {user: me._id}}}, function(err, matches) {
-
-          async.map(matches, function(match, next) {
-            for (var u = 0; u < match.users.length; ++u) {
-                var user = match.users[u];
-                if (user.user.equals(me._id) && !user.seen) {
-                  return next(null, 1);
-                }
-            }
-
-            Chat.find({match: match._id, 'to.user': me._id, 'to.seen': false}).count().exec(next);
-          }, function (err, results) {
-            var count = _.reduce(results, function(a,b) {return a + b;}, 0);
-            next(err, count);
-          });
-        });
-      },
-
-      pictures: function(next) {
-        Picture.find({user: me._id}).sort({z: -1}).limit(1).exec(next);
-      }
-    }, function(err, results) {
-      if (err) {
-        return next(err);
-      }
-
-      if (results.pictures.length) {
-        me.picture = results.pictures[0].url;
-      }
-      me.unseenMatches = results.unseenMatches;
-      res.json(me);
-    });
-
-
-  } else {
-    res.json({});
+  if (!req.user) {
+    return next(null, {});
   }
+
+  var me = req.user.toJSON();
+
+  async.auto({
+    unseenMatches: function(next) {
+      Match.find({'users' : {$elemMatch: {user: me._id}}}, function(err, matches) {
+
+        async.map(matches, function(match, next) {
+          for (var u = 0; u < match.users.length; ++u) {
+              var user = match.users[u];
+              if (user.user.equals(me._id) && !user.seen) {
+                return next(null, 1);
+              }
+          }
+
+          Chat.find({match: match._id, 'to.user': me._id, 'to.seen': false}).count().exec(next);
+        }, function (err, results) {
+          var count = _.reduce(results, function(a,b) {return a + b;}, 0);
+          next(err, count);
+        });
+      });
+    },
+
+    pictures: function(next) {
+      Picture.find({user: me._id}).sort({z: -1}).limit(1).exec(next);
+    }
+  }, function(err, results) {
+    if (err) {
+      return next(err);
+    }
+
+    if (results.pictures.length) {
+      me.picture = results.pictures[0].url;
+    }
+    me.unseenMatches = results.unseenMatches;
+    res.json(me);
+  });
 });
 
 router.get('/:id', function (req, res, next) {
