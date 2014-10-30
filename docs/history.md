@@ -1,4 +1,4 @@
-# Sngglr, a history
+s# Sngglr, a history
 
 Sngglr was never a serious project. It was actually a throw away project. I was trying a new framework (Firebase.io + AngularFire), and I thought it be funny to make Tinder. (I recently started using Tinder, and the idea seeme simple enough).
 
