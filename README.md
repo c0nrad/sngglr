@@ -1,18 +1,8 @@
 sngglr
 ======
 
-MEAN Stack dating website
+Open source dating website <3
 
-Will eventually replace github.com/c0nrad/snugglr and sngglr.com.
+The idea is to be able to quickly launch a dating website for a smaller circle of people.
 
-## secrets.js
-exports.twilioSid = 'abc';
-exports.twilioAuth = 'abc';
-exports.twilioNumber = '+123456789';
-
-exports.gmailEmail = 'asd@gmail.com';
-exports.gmailPassword = '123';
-
-exports.AWS_ACCESS_KEY = 'abc123';
-exports.AWS_SECRET_KEY = 'abc123';
-exports.S3_BUCKET = 'sngglr';
+It's currently restricted by email domain. So for example, I only want people from my school and my sister school, so I only allow @mtu.edu and @fu.edu email addresses.

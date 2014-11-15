@@ -140,7 +140,6 @@ function makeid()
     return text;
 }
 
-
 function s3_upload(){
   var status_elem = document.getElementById('status');
   var url_elem = document.getElementById('avatar_url');
