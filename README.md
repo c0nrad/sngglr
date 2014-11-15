@@ -1,11 +1,44 @@
 sngglr
 ======
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/c0nrad/sngglr)
-
 Open source dating website <3
 
 The idea is to be able to quickly launch a dating website for a smaller circle of people.
 
+## Deploy
 
-It's currently restricted by email domain. So for example, I only want people from my school and my sister school, so I only allow @mtu.edu and @fu.edu email addresses.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/c0nrad/sngglr)
+
+1. Click that button
+1. Setup a public amazon S3 bucket (then set the CORS like https://devcenter.heroku.com/articles/s3-upload-node#s3-setup)
+1. Make a twilio account
+3. Add a bunch of heroku config variables
+
+```yaml
+AWS_ACCESS_KEY=asdasdasdasd
+AWS_SECRET_KEY=asdasdasdasdasdasdasdasd
+S3_BUCKET=sngglr
+
+twilioSid=aqdwiojqwiodjqwiodjqwiodjqwiod
+twilioAuth=qwdij10jdqiowjdioqwjdoiqwjdqiowj
+twilioNumber=+11111111111
+
+gmailEmail=admin@account.com
+gmailPassword=youradminpassword
+
+smsOn=true
+emailOn=true
+
+HOSTNAME=DOMAIN.sngglr.com
+
+EMAIL_DOMAINS=DOMAIN.com,SECONDARY.com
+```
+
+And then it should just works...
+
+## Contact
+
+:D
+
+c0nrad@c0nrad.io
