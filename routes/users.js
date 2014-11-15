@@ -43,7 +43,7 @@ router.post('/', function (req, res, next) {
     return next('not a valid email!');
   }
 
-  var emailDomain = email.split('@')[1];
+  var emailDomain = u.email.split('@')[1];
   var validDomains = process.env.EMAIL_DOMAINS.split(',');
   if (!_.any(_.map(validDomains, function(a) { return a === emailDomain; }))) {
     return next('email must be belong to one of: ' + validDomains.join(', '));
