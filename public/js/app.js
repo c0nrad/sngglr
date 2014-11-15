@@ -124,6 +124,10 @@ app.service('Stats', function($resource){
   return $resource('/api/stats');
 });
 
+app.service('Config', function($resource) {
+  return $resource('/api/config');
+})
+
 app.controller('StatsController', function($scope, Stats) {
   $scope.stats = Stats.get(function(stats) {
     $scope.mtuCountChartObject = {
@@ -507,7 +511,11 @@ app.controller('ProfileController', function(User, Picture, $scope, $upload) {
 });
 
 
-app.controller('NewAccountController', function(User, $scope, $rootScope, $state) {
+app.controller('NewAccountController', function(User, $scope, $rootScope, $state, Config) {
+  $scope.config = Config.get(function() {
+    console.log(arguments);
+  });
+
   $scope.create = function() {
     var user = _.pick($scope, 'name', 'email', 'password');
     console.log(user);
