@@ -32,6 +32,7 @@ router.use('/api', sessionRoutes);
 router.use('/api', resetRoutes);
 router.use('/api', confirmationRoutes);
 router.use('/api', statRoutes);
+router.use('/api', require('./config'));
 
 router.use('/', inviteRoutes);
 router.use('/', reportRoutes);
