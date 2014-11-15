@@ -1,0 +1,38 @@
+{
+  "name": "sngglr",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "async": "*",
+    "aws-sdk": "^2.0.17",
+    "baucis": "*",
+    "body-parser": "~1.0.0",
+    "connect-multiparty": "^1.2.4",
+    "cookie-parser": "~1.0.1",
+    "debug": "~0.7.4",
+    "ejs": "~0.8.5",
+    "express": "~4.2.0",
+    "express-session": "*",
+    "moment": "*",
+    "mongo-connect": "*",
+    "mongodb": "*",
+    "morgan": "~1.0.0",
+    "node-env-file": "^0.1.4",
+    "node-uuid": "*",
+    "nodemailer": "^1.2.1",
+    "passport": "*",
+    "passport-local": "*",
+    "request": "*",
+    "sendgrid": "^1.2.1",
+    "static-favicon": "~1.0.0",
+    "twilio": "^1.7.0",
+    "underscore": "*",
+    "winston": "*"
+  },
+  "dev-dependencies": {
+    "grunt": "*"
+  }
+}

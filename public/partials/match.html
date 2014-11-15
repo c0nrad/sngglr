@@ -1,0 +1,60 @@
+
+<div ng-show="other.name">
+  <div class="row">
+    <div class="col-md-4">
+      <br />
+      <img ng-src="{{pictures[imgIndex].url}}" style="width: 100%">
+
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group">
+          <button class="btn btn-info" ng-click="prevPicture()"> Previous </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn"> {{imgIndex + 1}} / {{pictures.length}} </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-info" ng-click="nextPicture()"> Next </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <h2> {{other.name}} </h2>
+    <p> Gender: <strong> {{other.gender}} </strong> Wants to: <strong> {{other.activity}} </strong>
+        Last Seen: <strong> {{other.lastActivity | fromNow }} </strong> Class: <strong> {{other.standing}} </strong> </p>
+      <p style="font-size: 2em;"> {{other.bio}} </p>
+
+      <button class="btn btn-danger" ng-click="unmatch()"> Unmatch </button>
+      <a class="text-danger" ui-sref="contact"> Report User </a>
+
+    </div>
+  </div>
+</div>
+
+<br />
+
+<div ng-repeat="chat in chats" class="well well-sm">
+  <!-- {{chat}} -->
+  <div ng-if="chat.from.user === me._id">
+
+        <img class="img-circle pull-right" style="margin-left: 20px; margin-right: 20px; max-height: 75px; max-width: 75px; width: 100%; height: 100%" ng-src="{{me.pictures[0].url}}">
+        <blockquote class="blockquote-reverse pull-right">
+          <p>{{chat.message}}</p>
+          <footer>{{chat.ts | fromNow}}</footer>
+        </blockquote>
+
+  </div>
+  <div ng-if="chat.from.user !== me._id">
+
+        <img class="img-circle" style="display: inline; float: left; margin-left: 20px; margin-right: 20px; max-height: 75px; max-width: 75px; width: 100%; height: 100%" ng-src="{{pictures[0].url}}">
+        <blockquote style="float: left; display: inline">
+          <p>{{chat.message}}</p>
+          <footer>{{chat.ts | fromNow}}</footer>
+        </blockquote>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+
+<br />
+<textarea class="form-control" ng-model="message"> </textarea>
+<button class="btn btn-primary pull-right" ng-click="send()"> Send </button>

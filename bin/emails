@@ -1,0 +1,4 @@
+db = db.getSiblingDB('sngglr')
+db.users.find({}).forEach(function(user) {
+  print(user.email, ' ');
+})

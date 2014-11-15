@@ -1,0 +1,12 @@
+node_modules/
+log.log
+exceptions.log
+.env
+public/img/pictures
+secrets.dump
+TODO
+exceptions.log
+log.log
+email
+tdodo
+logs

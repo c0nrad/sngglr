@@ -1,0 +1,56 @@
+
+<div class="alert alert-danger" role="alert" ng-show="err">
+  <strong> Uh oh! </strong> {{err}}
+</div>
+
+<div ng-hide="other.name || err">
+
+  <div class="alert alert-danger"> You've already seen everyone! </div>
+
+  <p> Invite Someone? </p>
+  <input class="form-control" type="text" ng-model="email" placeholder="john@smith.com">
+  <button class="btn btn-primary" ng-click="invite()"> Invite! </button>
+  <div class="alert alert-success" ng-show="msg"> {{msg}} </div>
+  <div class="alert alert-danger" ng-show="inviteErr"> {{inviteErr}} </div>
+
+
+  <img style="width: 100%" src="/img/sad.png">
+
+
+</div>
+
+<div ng-show="other.name">
+  <div class="row">
+    <div class="col-md-4">
+      <br />
+        <img ng-src="{{other.pictures[imgIndex].url}}" style="width: 100%">
+
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group">
+          <button class="btn btn-info" ng-click="prevPicture()"> Previous </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn"> {{imgIndex + 1}} / {{other.pictures.length}} </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-info" ng-click="nextPicture()"> Next </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+
+      <h2> {{other.name}} </h2>
+      <p> Gender: <strong> {{other.gender}} </strong> Wants to: <strong> {{other.activity}} </strong>
+        Last Seen: <strong> {{other.lastActivity | fromNow }} </strong> Class: <strong> {{other.standing}} </strong> </p>
+
+
+      <p style="font-size: 2em;"> {{other.bio}} </p>
+
+      <button class="btn btn-success" ng-click="like('yes', other._id)"> Yes </button>
+      <button class="btn btn-info" ng-click="like('maybe', other._id)"> Maybe </button>
+      <button class="btn btn-danger" ng-click="like('no', other._id)"> No </button>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<h2> Step Two: Verify Email </h3>
+
+<div ng-hide="me.confirmed">
+  <div class="alert alert-warning"> Please confirm your email! ({{me.email}}) </div>
+    <button ng-click="check()" class="btn btn-primary"> I confirmed my email </button>
+</div>
+
+<div ng-show="me.confirmed">
+  <p> Email has been confirmed! </p>
+  <a class="btn btn-success btn-lg" ui-sref="new.profile"> Next Step! </a>
+</div>
