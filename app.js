@@ -1,7 +1,6 @@
 'use strict';
 
-console.log(__dirname);
-
+require('./secrets');
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');

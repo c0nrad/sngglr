@@ -43,8 +43,10 @@ router.post('/', function (req, res, next) {
     return next('not a valid email!');
   }
 
-  if (! (u.email.split('@')[1] === 'mtu.edu' || u.email.split('@')[1] === 'finlandia.edu' || u.email.split('@')[1] === 'fu.edu')) {
-    return next('email must be either belong to mtu.edu finlandia.edu or fu.edu');
+  var emailDomain = email.split('@')[1];
+  var validDomains = process.env.EMAIL_DOMAINS.split(',');
+  if (!_.any(_.map(validDomains, function(a) { return a === emailDomain; }))) {
+    return next('email must be belong to one of: ' + validDomains.join(', '));
   }
 
   async.auto({

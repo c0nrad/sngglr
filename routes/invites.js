@@ -9,6 +9,8 @@ var User = mongoose.model('User');
 
 var async = require('async');
 
+var _ = require('underscore');
+
 var notifications = require('./notifications');
 
 router.post('/invite', function(req, res, next) {
@@ -23,8 +25,11 @@ router.post('/invite', function(req, res, next) {
     return next('not a valid email');
   }
 
-  if (! (email.split('@')[1] === 'mtu.edu' || email.split('@')[1] === 'finlandia.edu' || email.split('@')[1] === 'fu.edu')) {
-    return next('email must be either belong to mtu.edu or finlandia.edu or fu.edu');
+
+  var emailDomain = email.split('@')[1];
+  var validDomains = process.env.EMAIL_DOMAINS.split(',');
+  if (!_.any(_.map(validDomains, function(a) { return a === emailDomain; }))) {
+    return next('email must be belong to one of: ' + validDomains.join(', '));
   }
 
   async.auto({

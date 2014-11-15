@@ -20,6 +20,7 @@
     "mongo-connect": "*",
     "mongodb": "*",
     "morgan": "~1.0.0",
+    "node-env-file": "^0.1.4",
     "node-uuid": "*",
     "nodemailer": "^1.2.1",
     "passport": "*",

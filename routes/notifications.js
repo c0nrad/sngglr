@@ -92,6 +92,6 @@ exports.inviteEmail = function(email) {
   '\n' +
   'http://sngglr.com\n' +
   '\n' +
-  'Made by MTU/FU students for MTU/FU students,\n' +
+  'Enjoy :)\n' +
   'Sngglr';
 };

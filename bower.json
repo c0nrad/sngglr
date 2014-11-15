@@ -1,7 +1,7 @@
 {
   "name": "sngglr",
   "version": "0.0.0",
-  "description": "Dating website for MTU/Finlandia students",
+  "description": "Dating website restricted by email domain",
   "main": "app.js",
   "authors": [
     "c0nrad"
