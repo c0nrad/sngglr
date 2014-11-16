@@ -47,6 +47,9 @@ app.use(multipart({
 // Persist sessions with mongoStore
 app.use(session({
   secret: 'i4m41337h4x0r??',
+  cookie: {
+    maxAge: 31*24*60*60*1000 // 31 days, in milliseconds
+  },
   store: new mongoStore({
     url: mongoUri,
     collection: 'sessions'
