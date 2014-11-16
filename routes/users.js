@@ -128,7 +128,7 @@ router.put('/:id', function (req, res, next) {
 
 router.get('/me', function(req, res, next) {
   if (!req.user) {
-    return next(null, {});
+    return res.send({});
   }
 
   var me = req.user.toJSON();
