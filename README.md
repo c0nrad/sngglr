@@ -1,9 +1,9 @@
-sngglr
+sngglr - An amazing project
 ======
 
-Open source dating website <3
+Open source dating website ♥
 
-The idea is to be able to quickly launch a dating website for a smaller circle of people.
+The idea is to be able to quickly launch a dating website for a small circle of people.
 
 ## Deploy
 
@@ -35,10 +35,10 @@ HOSTNAME=DOMAIN.sngglr.com
 EMAIL_DOMAINS=DOMAIN.com,SECONDARY.com
 ```
 
-And then it should just works...
+And then it should work...
 
 ## Contact
 
-:D
+😀
 
 c0nrad@c0nrad.io
